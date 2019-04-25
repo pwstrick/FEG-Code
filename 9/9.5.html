@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>9.5</title>
+</head>
+<body>
+	<script>
+		function combinationCount1(n) {
+		  var count = 0,
+			num1 = n, //1最多的个数
+			num2 = n / 2, //2最多的个数
+			num5 = n / 5; //5最多的个数
+		  for (var x = 0; x <= num1; x++)
+			for (var y = 0; y <= num2; y++)
+			  for (var z = 0; z <= num5; z++) {
+				if (x + 2 * y + 5 * z == n) //满足条件
+				  count++;
+			  }
+		  return count;
+		}
+		console.log(combinationCount1(100));
+		
+		function combinationCount2(n) {
+			var count=0;
+			for(var m=0; m<=n; m+=5) {
+			  count += Math.floor((m+2)/2);
+			}
+			return count;
+		}
+		console.log(combinationCount2(100));
+
+	</script>
+</body>
+</html>

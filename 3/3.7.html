@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>3.7</title>
+</head>
+<body>
+	<script>
+		function heapSort(arr) {
+		  var heapSize = arr.length,
+			temp;
+		  //建堆
+		  for (var i = Math.floor(heapSize / 2) - 1; i >= 0; i--) {
+			heapify(arr, i, heapSize);
+		  }
+		  //堆排序
+		  for (var j = heapSize - 1; j >= 1; j--) {
+			temp = arr[0];
+			arr[0] = arr[j];
+			arr[j] = temp;
+			heapify(arr, 0, --heapSize);
+		  }
+		  return arr;
+		}
+
+		/*
+		 * 方法说明：维护堆的性质
+		 * @param  arr 数组
+		 * @param  x   数组下标
+		 * @param  len 堆大小
+		 */
+		function heapify(arr, x, len) {
+		  var l = 2 * x + 1,
+			r = 2 * x + 2,
+			largest = x,
+			temp;
+		  if (l < len && arr[l] > arr[largest]) {
+			largest = l;
+		  }
+		  if (r < len && arr[r] > arr[largest]) {
+			largest = r;
+		  }
+		  if (largest != x) {
+			temp = arr[x];
+			arr[x] = arr[largest];
+			arr[largest] = temp;
+			heapify(arr, largest, len);
+		  }
+		}
+
+		var arr = [20, 0, 39, 66, 40, 78, 46, 36, 60, 100],
+		  txt = "";
+		for (var k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序前：", txt);
+		arr = heapSort(arr);
+		txt = "";
+		for (k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序后：", txt);
+
+	</script>
+</body>
+</html>

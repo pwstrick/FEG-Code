@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.10</title>
+</head>
+<body>
+	<script>
+		function findMin1(arr) {
+		  var len = arr.length;
+		  if (!arr || len <= 0) {
+			return;
+		  }
+		  var min = Number.MAX_VALUE;
+		  for (var i = 0; i < len; i++) {
+			if (Math.abs(arr[i]) < Math.abs(min))
+			  min = arr[i];
+		  }
+		  return min;
+		}
+
+		var arr = [-10, -5, -2, 7, 15, 50];
+		console.log("绝对值最小的数为：", findMin1(arr));
+		
+		function findMin2(arr) {
+		  var len = arr.length;
+		  if (!arr || len <= 0) {
+			return;
+		  }
+		  //数组中没有负数
+		  if (arr[0] >= 0)
+			return arr[0];
+		  //数组中没有正数
+		  if (arr[len - 1] <= 0)
+			return arr[len - 1];
+		  var mid = 0,
+			begin = 0,
+			end = len - 1,
+			absMin = 0;
+		  //数组中既有正数又有负数
+		  while (1) {
+			mid = begin + Math.floor((end - begin) / 2);
+			//如果中间值等于0，那么就是绝对值最小的数
+			if (arr[mid] == 0) {
+			  return 0;
+			}
+			if (arr[mid] > 0) { //如果中间值大于0，并且正负数的分界点在左侧
+			  if (arr[mid - 1] == 0)
+				return 0;
+			  if (arr[mid - 1] > 0)
+				end = mid - 1; //继续在数组的左半部分查找
+			  else
+				break; //找到正负数的分界点
+			} else { //如果中间值小于0，那么在数组有半部分查找
+			  if (arr[mid + 1] == 0)
+				return 0;
+			  if (arr[mid + 1] < 0)
+				begin = mid + 1; //在数组有半部分继续查找
+			  else
+				break; //找到正负数的分界点
+			}
+		  }
+		  //求出正负数分界点中绝对值最小的值
+		  absMin = Math.abs(arr[mid]) < Math.abs(arr[mid + 1]) ?
+			arr[mid] :
+			arr[mid + 1];
+		  return absMin;
+		}
+
+		var arr = [-10, -5, -2, 7, 15, 50];
+		console.log("绝对值最小的数为：", findMin2(arr));
+	</script>
+</body>
+</html>

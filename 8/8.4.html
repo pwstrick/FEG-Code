@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.4</title>
+</head>
+<body>
+	<script>
+		/*
+		 ** 函数功能：用递增实现加法运算（限制条件：至少有一个非负数）
+		 ** 输入参数：a和b都是整数，且有一个非负数
+		 */
+		function add(a, b) {
+		  if (a < 0 && b < 0) {
+			return -1;
+		  }
+		  if (b >= 0) {
+			for (var i = 0; i < b; i++) {
+			  a++;
+			}
+			return a;
+		  }
+		  for (i = 0; i < a; i++) {
+			b++;
+		  }
+		  return b;
+		}
+
+		/*
+		 ** 函数功能：用递增实现减法运算（限制条件：被减数大于减数）
+		 ** 输入参数：a和b都是整数且a>=b
+		 */
+		function sub(a, b) {
+		  if (a < b) {
+			return -1;
+		  }
+		  for (var result = 0; b != a; b++, result++) {}
+		  return result;
+		}
+
+		/*
+		 ** 函数功能：用递增实现乘法运算（限制条件：两个数都为整数）
+		 ** 输入参数：a和b都是正整数
+		 */
+		function multi(a, b) {
+		  if (a <= 0 || b <= 0) {
+			return -1;
+		  }
+		  var result = 0;
+		  for (var i = 0; i < b; i++) {
+			result = add(result, a);
+		  }
+		  return result;
+		}
+
+		/*
+		 ** 函数功能：用递增实现除法运算（限制条件：两个数都为整数）
+		 ** 输入参数：a和b都是正整数
+		 */
+		function divid(a, b) {
+		  if (a <= 0 || b <= 0) {
+			return -1;
+		  }
+		  var result = 1,
+			tmpMulti = 0;
+		  while (1) {
+			tmpMulti = multi(b, result);
+			if (tmpMulti <= a) {
+			  result++;
+			} else {
+			  break;
+			}
+		  }
+		  return result - 1;
+		}
+
+		console.log("加法：", add(2, -4));
+		console.log("减法：", sub(2, -4));
+		console.log("乘法：", multi(2, 4));
+		console.log("除法：", divid(8, 4));
+		
+
+	</script>
+</body>
+</html>

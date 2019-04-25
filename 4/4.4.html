@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.4</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, data) {
+			this.id = id; //结点id
+			this.data = data; //结点名称
+			this.next = null; //下一结点
+		}
+
+		//单链表
+		function linkList(id, data) {
+			this.header = new node(id, data); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+				var current = this.header;
+				while (current.next != null) {
+					if (current.next.id > node.id) {
+						break;
+					}
+					current = current.next;
+				}
+				node.next = current.next;
+				current.next = node;
+			},
+			clear: function () { //清空链表
+				this.header = null;
+			},
+			getLinkList: function () { //获取链表
+				var current = this.header;
+				if (current.next == null) {
+					console.log("链表为空");
+					return;
+				}
+				var txt = "";
+				while (current.next != null) {
+					txt += current.next.data + " ";
+					if (current.next.next == null) {
+						break;
+					}
+					current = current.next;
+				}
+				console.log(txt);
+			},
+			/*
+			 ** 函数功能：找出链表Head的中间结点，把链表从中间断成两个子链表
+			 ** 输入参数：head:链表头结点
+			 ** 返回值：指向链表的中间结点的指针
+			 */
+			FindMiddleNode: function (head) {
+				if (head == null || head.next == null)
+					return head;
+				var fast = head, //快指针每次走两步
+						slow = head, //慢指针每次走一步
+						slowPre = head;
+				//当fast到链表尾时，slow恰好指向链表的中间结点
+				while (fast != null && fast.next != null) {
+					slowPre = slow;
+					slow = slow.next;
+					fast = fast.next.next;
+				}
+				//把链表断开成两个独立的子链表
+				slowPre.next = null;
+				return slow;
+			},
+			/*
+			 ** 函数功能：对不带头结点的单链表翻转
+			 ** 输入参数：head:指向链表头结点
+			 */
+			Reverse: function (head) {
+				if (head == null || head.next == null)
+					return head;
+				var pre = head, //前驱结点
+						cur = head.next, //当前结点
+						next = cur.next; //后继结点
+				pre.next = null;
+				//使当前遍历到的结点cur指向其前驱结点
+				while (cur != null) {
+					next = cur.next;
+					cur.next = pre;
+					pre = cur;
+					cur = cur.next;
+					cur = next;
+				}
+				return pre;
+			},
+			/*
+			 ** 函数功能：对链表进行排序
+			 */
+			Reorder: function () {
+				var head = this.header; //指向链表头结点
+				if (head == null || head.next == null)
+					return;
+
+				var cur1 = head.next, //前半部分链表第一个结点
+						mid = this.FindMiddleNode(head.next),
+						cur2 = this.Reverse(mid), //后半部分链表逆序后的第一个结点
+						tmp = null;
+				//合并两个链表
+				while (cur1.next != null) {
+					tmp = cur1.next;
+					cur1.next = cur2;
+					cur1 = tmp;
+
+					tmp = cur2.next;
+					cur2.next = cur1;
+					cur2 = tmp;
+				}
+				cur1.next = cur2;
+			}
+
+		};
+
+		var lists = new linkList();
+		for (var i = 1; i < 8; i++) {
+			lists.addLink(new node(i, i));
+		}
+		console.log("排序前： ");
+		lists.getLinkList();
+		lists.Reorder();
+		console.log("排序后：");
+		lists.getLinkList();
+		//释放链表所占的空间
+		lists.clear();
+	</script>
+</body>
+</html>

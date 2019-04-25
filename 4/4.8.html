@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.8</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, data) {
+			this.id = id; //结点id
+			this.data = data; //结点名称
+			this.next = null; //下一结点
+		}
+		//单链表
+		function linkList(id, data) {
+			this.header = new node(id, data); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+				var current = this.header;
+				while (current.next != null) {
+					if (current.next.id > node.id) {
+						break;
+					}
+					current = current.next;
+				}
+				node.next = current.next;
+				current.next = node;
+			},
+			clear: function () { //清空链表
+				this.header = null;
+			},
+			getLinkList: function () { //获取链表
+				var current = this.header;
+				if (current.next == null) {
+					console.log("链表为空");
+					return;
+				}
+				var txt = "";
+				while (current.next != null) {
+					txt += current.next.data + " ";
+					if (current.next.next == null) {
+						break;
+					}
+					current = current.next;
+				}
+				console.log(txt);
+			},
+			/*
+			 ** 函数功能：对不带头结点的单链表翻转
+			 ** 输入参数：head:指向链表头结点
+			 */
+			Reverse: function (head) {
+				//判断链表是否为空
+				if (head == null || head.next == null)
+					return;
+				var pre = head, //前驱结点
+						cur = head.next, //当前结点
+						next = cur.next; //后继结点
+				pre.next = null;
+				//使当前遍历到的结点cur指向其前驱结点
+				while (cur != null) {
+					next = cur.next;
+					cur.next = pre;
+					pre = cur;
+					cur = next;
+				}
+				return pre;
+			},
+			/*
+			 ** 函数功能：对链表K翻转
+			 ** 输入参数：head:指向链表头结点，K:表示以K个结点为一组进行翻转
+			 */
+			ReverseK: function (k) {
+				var head = this.header;
+				if (head == null || head.next == null || k < 2)
+					return;
+				var pre = head,
+						begin = head.next,
+						end = null,
+						pNext = null;
+				while (begin != null) {
+					end = begin;
+					//对应图4-7中的（1），找到从begin开始的第K个结点
+					for (var i = 1; i < k; i++) {
+						if (end.next == null) //剩余结点的个数小于k
+							return;
+						end = end.next;
+					}
+					pNext = end.next; //见图4-7中的（2）
+					end.next = null; //见图4-7中的（3）
+					pre.next = this.Reverse(begin); //见图4-7中的（4）和（5）
+					begin.next = pNext; //见图4-7中的（6）
+					pre = begin; //见图4-7中的（7）
+					begin = pNext; //见图4-7中的（8）
+					i = 1;
+				}
+			}
+		};
+
+		var lists = new linkList();
+		for (var i = 1; i < 8; i++) {
+			lists.addLink(new node(i, i));
+		}
+		console.log("顺序输出：");
+		lists.getLinkList();
+		console.log("逆序输出：");
+		lists.ReverseK(3);
+		lists.getLinkList();
+		//释放链表所占的空间
+		lists.clear();
+	</script>
+</body>
+</html>

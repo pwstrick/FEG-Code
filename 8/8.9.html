@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.9</title>
+</head>
+<body>
+	<script>
+		/*
+		 ** 函数功能：获取n的二进制表示中1的个数
+		 ** 输入参数：n为自然数
+		 */
+		function countOne1(n) {
+		  var count = 0; //计数
+		  while (n > 0) {
+			if ((n & 1) == 1) //判断最后一位是否为1
+			  count++;
+			n >>= 1; //通过移位丢掉最后一位
+		  }
+		  return count;
+		}
+		console.log(countOne1(7));
+		console.log(countOne1(8));
+		
+		function countOne2(n) {
+		  var count = 0; //计数
+		  while (n > 0) {
+			n = n & (n - 1);
+			count++;
+		  }
+		  return count;
+		}
+		console.log(countOne2(7));
+		console.log(countOne2(8));
+
+
+	</script>
+</body>
+</html>

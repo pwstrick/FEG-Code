@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.2</title>
+</head>
+<body>
+	<script>
+		function isPower1(n) {
+		  if (n < 1)
+			return false;
+		  var i = 1;
+		  while (i <= n) {
+			if (i == n)
+			  return true;
+			i <<= 1;
+		  }
+		  return false;
+		}
+
+		var arr = [8, 9];
+		arr.forEach(function (value, index) {
+		  if (isPower1(value))
+			console.log(value, "能表示成2的n次方");
+		  else
+			console.log(value, "不能表示成2的n次方");
+		});
+
+		function isPower2(n) {
+		  if (n < 1)
+			return false;
+		  var m = n & (n - 1);
+		  return m == 0;
+		}
+		console.log(isPower2(8));
+		console.log(isPower2(9));
+
+	</script>
+</body>
+</html>

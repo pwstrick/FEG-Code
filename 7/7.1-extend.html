@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.1引申</title>
+</head>
+<body>
+	<script>
+		function FindRepeat(array, num) {
+		  var len = array.length,
+			newArr = [];
+		  if (!array || len < 1 || num < 1 || len <= num)
+			return newArr;
+		  var index = array[0],
+			num = num - 1;
+		  while (true) {
+			if (array[index] < 0) {
+			  num--;
+			  /**
+			   * 找到了重复的数字index，为了保证能遍历数组中所有的数，
+			   * 把index下标对应的值修改为尽可能接近N+M的数
+			   */
+			  array[index] = len - num;
+			  newArr.push(index);
+			}
+			if (num == 0) {
+			  return newArr.filter(function (value, index, self) {
+				return self.indexOf(value) == index;
+			  });
+			}
+			array[index] *= -1;
+			index = array[index] * (-1);
+		  }
+		}
+
+		var array = [1, 2, 3, 3, 3, 4, 5, 5, 5, 5, 6],
+		  num = 6,
+		  newArr = FindRepeat(array, num);
+		var txt = "";
+		newArr.forEach(function (value) {
+		  txt += value + " ";
+		});
+		console.log(txt);
+	</script>
+</body>
+</html>

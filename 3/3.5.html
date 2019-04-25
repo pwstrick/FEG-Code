@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>3.5</title>
+</head>
+<body>
+	<script>
+		function selectSort(arr) {
+			var len = arr.length,
+					p, tmp;
+			//外层控制轮数
+			for (var i = 0; i < len - 1; i++) {
+				p = i; //先假设最小值的位置
+				//内层控制比较次数，比较i后边的元素
+				for (var j = i + 1; j < len; j++) {
+					//arr[p]是当前已知的最小值
+					if (arr[p] > arr[j]) {
+						//比较发现更小的，就记录下最小值的位置
+						p = j;
+					}
+				}
+				//如果发现最小值的位置与当前假设的位置i不同，则位置互换
+				if (p != i) {
+					tmp = arr[p];
+					arr[p] = arr[i];
+					arr[i] = tmp;
+				}
+			}
+			return arr;
+		}
+
+		var arr = [20, 0, 39, 66, 40, 78, 46, 36, 60, 100],
+				txt = "";
+		for (var k in arr) {
+			txt += arr[k] + " ";
+		}
+		console.log("排序前：", txt);
+		arr = selectSort(arr);
+		txt = "";
+		for (k in arr) {
+			txt += arr[k] + " ";
+		}
+		console.log("排序后：", txt);
+
+
+		/**
+		 * 顺序查找
+		 * @param  arr数组
+		 * @param  k是要查找的元素
+		 * @return 成功返回数组下标，失败则返回-1
+		 */
+		function seq_sch(arr, k) {
+			for (var i = 0, n = arr.length; i < n; i++) {
+				if (arr[i] == k) {
+					break;
+				}
+			}
+			if (i < n) {
+				return i;
+			}
+			return -1;
+		}
+		/**
+		 * 二分查找，要求数组已经排好顺序
+		 * @param  array数组
+		 * @param  low是数组起始元素下标
+		 * @param  high是数组末尾元素下标
+		 * @param  k是要查找的元素
+		 * @return 成功时返回数组下标，失败则返回-1
+		 */
+		function bin_sch(array, low, high, k) {
+			if (low <= high) {
+				var mid = Math.floor((low + high) / 2);
+				if (array[mid] == k) {
+					return mid;
+				}
+				if (k < array[mid]) {
+					return bin_sch(array, low, mid - 1, k);
+				}
+				return bin_sch(array, mid + 1, high, k);
+			}
+			return -1;
+		}
+		// 顺序查找
+		var arr1 = [9, 15, 34, 76, 25, 5, 47, 55];
+		console.log(seq_sch(arr1, 47)); //结果为6
+		// 二分查找
+		var arr2 = [5, 9, 15, 25, 34, 47, 55, 76];
+		console.log(bin_sch(arr2, 0, 7, 47)); //结果为5
+		
+	</script>
+</body>
+</html>

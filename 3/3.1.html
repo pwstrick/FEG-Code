@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>3.1</title>
+</head>
+<body>
+	<script>
+		function maopao(arr) {
+		  var len = arr.length, //计算数组长度
+			i, k, tmp;
+		  for (i = 1; i < len; i++) { //该层循环控制 需要冒泡的轮数
+			for (k = 0; k < len - i; k++) {
+			  if (arr[k] > arr[k + 1]) {
+				tmp = arr[k + 1];
+				arr[k + 1] = arr[k];
+				arr[k] = tmp;
+			  }
+			}
+		  }
+		  return arr;
+		}
+
+		var arr = [20, 0, 39, 66, 40, 78, 46, 36, 60, 100],
+		  txt = "";
+		for (var k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序前:", txt);
+		arr = maopao(arr);
+		txt = "";
+		for (k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序后:", txt);
+		
+		function maopao2(arr) {
+		  var i = arr.length - 1, 	//初始时，最后位置保持不变
+			bool;
+		  while (i > 0) {
+			bool = 0; 				//每趟开始时，无记录交换
+			for (var j = 0; j < i; j++)
+			  if (arr[j] > arr[j + 1]) {
+				bool = j; 			//记录交换的位置
+				tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			  }
+			i = bool; 				//为下一趟排序作准备
+		  }
+		  return arr;
+		}
+		
+		arr = [20, 0, 39, 66, 40, 78, 46, 36, 60, 100],
+		  txt = "";
+		for (var k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序前:", txt);
+		arr = maopao2(arr);
+		txt = "";
+		for (k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序后:", txt);
+		
+		function maopao3(arr) {
+		  var low = 0,
+			high = arr.length - 1; //设置变量的初始值
+		  while (low < high) {
+			for (var j = low; j < high; ++j) //正向冒泡，找到最大者
+			  if (arr[j] > arr[j + 1]) {
+				tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			  }
+			  --high; //修改high值，前移一位
+			for (j = high; j > low; --j) //反向冒泡，找到最小者
+			  if (arr[j] < arr[j - 1]) {
+				tmp = arr[j];
+				arr[j] = arr[j - 1];
+				arr[j - 1] = tmp;
+			  }
+			  ++low; //修改low值，后移一位
+		  }
+		  return arr;
+		}
+		
+		arr = [20, 0, 39, 66, 40, 78, 46, 36, 60, 100],
+		  txt = "";
+		for (var k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序前:", txt);
+		arr = maopao3(arr);
+		txt = "";
+		for (k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序后:", txt);
+	</script>
+</body>
+</html>

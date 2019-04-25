@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.5</title>
+</head>
+<body>
+	<script>
+		function get2Num(arr) {
+		  var len = arr.length;
+		  if (!arr || len < 1) {
+			return;
+		  }
+		  var i = 0,
+			result = 0,
+			position = 0;
+		  //计算数组中所有数字异或的结果
+		  for (var i = 0; i < len; i++) {
+			result = result ^ arr[i];
+		  }
+		  var tmpResult = result; //临时保存异或结果
+		  //找出异或结果中其中一个位值为1的位数（例如1100，位值为1位的数为2和3）
+		  for (i = result; (i & 1) == 0; i = i >> 1) {
+			position++;
+		  }
+		  for (i = 0; i < len; i++) {
+			//异或的结果与所有第position位为1的数异或，
+			//结果一定是出现一次的两个数中的其中一个
+			if ((arr[i] >> position) & 1) {
+			  result = result ^ arr[i];
+			}
+		  }
+		  //得到另外一个出现一次的数
+		  var another = result ^ tmpResult;
+		  console.log(result, another);
+		}
+
+		var arr = [3, 5, 6, 6, 5, 7, 2, 2];
+		get2Num(arr);
+	</script>
+</body>
+</html>

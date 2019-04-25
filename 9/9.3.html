@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>9.3</title>
+</head>
+<body>
+	<script>
+		//返回0和1的概率都为1/2
+		function func1() {
+		  return Math.floor(Math.random() * 2) % 2;
+		}
+
+		//返回0的概率为1/4，返回1的概率为3/4
+		function func2() {
+		  var a1 = func1(),
+			a2 = func1(),
+			tmp = a1;
+		  tmp |= (a2 << 1);
+		  if (tmp == 0)
+			return 0;
+		  return 1;
+		}
+
+		var arr = [];
+		for (var i = 0; i < 16; i++)
+		  arr.push(func2());
+		console.log(arr.join(" "));
+		arr = [];
+		for (i = 0; i < 16; i++)
+		  arr.push(func2());
+		console.log(arr.join(" "));
+		
+	</script>
+</body>
+</html>

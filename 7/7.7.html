@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.7</title>
+</head>
+<body>
+	<script>
+		function minDistance1(arr, num1, num2) {
+		  var len = arr.length;
+		  if (!arr || len <= 0) {
+			return;
+		  }
+		  //初始化num1与num2之间的最小距离
+		  var minDis = Math.max.apply(null, arr),
+			dist = 0;
+		  for (var i = 0; i < len; ++i) {
+			if (arr[i] == num1) {
+			  for (var j = 0; j < len; ++j) {
+				if (arr[j] == num2) {
+				  //计算当前遍历到的num1与num2之间的距离
+				  dist = Math.abs(i - j);
+				  if (dist < minDis)
+					minDis = dist;
+				}
+			  }
+			}
+		  }
+		  return minDis;
+		}
+
+		var arr = [4, 5, 6, 4, 7, 4, 6, 4, 7, 8, 5, 6, 4, 3, 10, 8],
+		  num1 = 4,
+		  num2 = 8;
+		console.log(minDistance1(arr, num1, num2));
+		
+		function minNum(x, y) {
+		  return (x < y) ? x : y;
+		}
+		function minDistance2(arr, num1, num2) {
+		  var len = arr.length;
+		  if (!arr || len <= 0) {
+			return;
+		  }
+		  var lastPos1 = -1, //上次遍历到num1的位置
+			lastPos2 = -1, //上次遍历到num2的位置
+			minDis = Math.max.apply(null, arr); //num1与num2的最小距离
+		  for (var i = 0; i < len; ++i) {
+			if (arr[i] == num1) {
+			  lastPos1 = i;
+			  if (lastPos2 >= 0)
+				minDis = minNum(minDis, lastPos1 - lastPos2);
+			}
+			if (arr[i] == num2) {
+			  lastPos2 = i;
+			  if (lastPos1 >= 0)
+				minDis = minNum(minDis, lastPos2 - lastPos1);
+			}
+		  }
+		  return minDis;
+		}
+		var arr = [4, 5, 6, 4, 7, 4, 6, 4, 7, 8, 5, 6, 4, 3, 10, 8],
+		  num1 = 4,
+		  num2 = 8;
+		console.log(minDistance2(arr, num1, num2));
+	</script>
+</body>
+</html>

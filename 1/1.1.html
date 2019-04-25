@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>1.1</title>
+</head>
+<body>
+	<script>
+		for (var s = 5; ; s++) {
+			if (s % 5 == 1) {
+				//第一个人拿走五分之一，剩l
+				l = s - Math.round(s / 5) - 1;
+				if (l % 5 == 1) {
+					//第一个人拿走五分之一，剩q
+					q = l - Math.round(l / 5) - 1;
+					if (q % 5 == 1) {
+						//第一个人拿走五分之一，剩w
+						w = q - Math.round(q / 5) - 1;
+						if (w % 5 == 1) {
+							//第一个人拿走五分之一，剩x
+							x = w - Math.round(w / 5) - 1;
+							if (x % 5 == 1) {
+								//第一个人拿走五分之一，剩y
+								y = x - Math.round(x / 5) - 1;
+								if (y % 5 == 1) {
+									console.log(s);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	</script>
+</body>
+</html>

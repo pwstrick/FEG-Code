@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.19</title>
+</head>
+<body>
+	<script>
+		function bestMatrixChainOrder1(p, i, j) {
+		  if (i == j)
+			return 0;
+		  var min = 2147483647,
+			count;
+		  /* 
+		   ** 通过把括号放在第一个不同的地方来获取最小的代价
+		   ** 每个括号内都可以递归地使用相同的方法来计算
+		   */
+		  for (var k = i; k < j; k++) {
+			count = bestMatrixChainOrder1(p, i, k) +
+			  bestMatrixChainOrder1(p, k + 1, j) +
+			  p[i - 1] * p[k] * p[j];
+			if (count < min)
+			  min = count;
+		  }
+		  return min;
+		}
+
+		var arr = [1, 5, 2, 4, 6],
+		  n = arr.length;
+		console.log("最少的乘法次数为：", bestMatrixChainOrder1(arr, 1, n - 1));
+		
+		function bestMatrixChainOrder2(p) {
+		  var n = p.length,
+			cost = [];
+		  /* 
+		   ** 申请数组来保存中间结果
+		   ** A[i] = p[i-1] × p[i]
+		   ** cost[i,j] = A[i] × A[i+1] ×...× A[j]
+		   */
+		  for (var i = 1; i < n; i++) {
+			cost[i] = [];
+			cost[i][i] = 0;
+		  }
+		  var j, k, q,
+			cLen;//cLen表示矩阵链的长度
+		  for (cLen = 2; cLen < n; cLen++) {
+			for (i = 1; i < n - cLen + 1; i++) {
+			  j = i + cLen - 1;
+			  cost[i][j] = Number.MAX_VALUE;
+			  for (k = i; k <= j - 1; k++) {
+				//计算乘法运算的代价
+				q = cost[i][k] + cost[k + 1][j] + p[i - 1] * p[k] * p[j];
+				if (q < cost[i][j])
+				  cost[i][j] = q;
+			  }
+			}
+		  }
+		  return cost[1][n - 1];
+		}
+
+		var arr = [1, 5, 2, 4, 6];
+		console.log("最少的乘法次数为：", bestMatrixChainOrder2(arr));
+	</script>
+</body>
+</html>

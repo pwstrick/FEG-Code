@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.10</title>
+</head>
+<body>
+	<script>
+		function power1(d, n) {
+		  if (n == 0) return 1;
+		  if (n == 1) return d;
+		  var result = 1;
+		  if (n > 0) {
+			for (var i = 1; i <= n; i++) {
+			  result *= d;
+			}
+			return result;
+		  }
+		  n = Math.abs(n);
+		  for (i = 1; i <= n; i++) {
+			result = result / d;
+		  }
+		  return result;
+		}
+
+		console.log(power1(2, 3));
+		console.log(power1(-2, 3));
+		console.log(power1(2, -3));
+
+		function power2(d, n) {
+		  if (n == 0) return 1;
+		  if (n == 1) return d;
+		  var tmp = power2(d, Math.floor(Math.abs(n / 2)));
+		  if (n > 0) {
+			if (n % 2 == 1)
+			  return tmp * tmp * d; //n为奇数
+			return tmp * tmp; //n为偶数
+		  }
+		  if (n % 2 == 1)
+			return 1 / (tmp * tmp * d);
+		  return 1 / (tmp * tmp);
+		}
+		console.log(power2(2, 3));
+		console.log(power2(-2, 3));
+		console.log(power2(2, -3));
+
+
+	</script>
+</body>
+</html>

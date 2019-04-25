@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>6.7</title>
+</head>
+<body>
+	<script>
+		function Node(key, left, right) {
+		  this.key = key;
+		  this.left = left;
+		  this.right = right;
+		}
+		function BinaryTree() {
+		  this.root = null;
+		  this.perfect = true; //标记是否是完全二叉树
+		  this.levelNumber = 0; //每层的结点数
+		}
+		BinaryTree.prototype = {
+			insertNode: function (node, newNode) { //插入结点
+			  if (node.key < newNode.key) {
+				//如果父结点小于子结点，插到右边
+				node.right ? this.insertNode(node.right, newNode) : (node.right = newNode);
+			  } else if (node.key > newNode.key) {
+				//如果父结点大于子结点，插到左边
+				node.left ? this.insertNode(node.left, newNode) : (node.left = newNode);
+			  }
+			},
+			insert: function (key) {
+			  var newNode = new Node(key);
+			  if (this.root) {
+				this.insertNode(this.root, newNode);
+			  } else {
+				this.root = newNode;
+			  }
+			},
+			levelOrder: function (root, level) { //层序遍历
+			  if (root == null || level < 1) {
+				return;
+			  }
+			  if (level == 1) {
+				//1、如果一个结点只有右子树没有左子树，那么不是完全二叉树
+				if (!root.left && root.right) {
+				  this.perfect = false;
+				}
+				//2、如果一个结点只有左子树并且后面的子结点不是叶子结点，那么也不是完全二叉树
+				if (root.left && !root.right) {
+				  if (root.left.left || root.left.right) {
+					this.perfect = false;
+				  }
+				}
+				this.levelNumber++; //统计该层的结点数
+				return;
+			  }
+			  if (root.left) {
+				this.levelOrder(root.left, level - 1);
+			  }
+			  if (root.right) {
+				this.levelOrder(root.right, level - 1);
+			  }
+			},
+			getDepthNode: function (root) { //获取树的深度（即层数）
+			  if (!root) {
+				return 0;
+			  }
+			  var left = this.getDepthNode(root.left),
+				right = this.getDepthNode(root.right),
+				depth = left > right ? (left + 1) : (right + 1);
+			  return depth;
+			},
+			isPerfectTree: function () { //判断该树是否是完全二叉树
+			  var root = this.root;
+			  //层序遍历
+			  var level = this.getDepthNode(root);
+			  for (var i = 1; i <= level; i++) {
+				this.levelNumber = 0;
+				//传递当前的层数以及该层的可包含的最多结点
+				this.levelOrder(root, i);
+				//3、如果当前不是最后一层并且该层的结点数没有达到最大个数，那么不是完全二叉树
+				if (this.levelNumber < Math.pow(2, i - 1) && i != level) {
+				  this.perfect = false;
+				}
+			  }
+			  if (this.perfect) {
+				console.log("该树是完全二叉树");
+			  } else {
+				console.log("该树不是完全二叉树");
+			  }
+			}
+		};
+
+		var tree = new BinaryTree(),
+		  nodes = [9, 3, 10];
+		//nodes = [9, 7, 11, 4, 8, 3, 5];
+		//构建二叉树
+		nodes.forEach(function (value, key) {
+		  tree.insert(value);
+		});
+		tree.isPerfectTree();
+	</script>
+</body>
+</html>

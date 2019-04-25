@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>6.1</title>
+</head>
+<body>
+	<script>
+		/*** 
+		 * 以指定的值构造二叉树，并指定左右子树
+		 * @param mixed key 结点的值.
+		 * @param mixed left 左子树结点.
+		 * @param mixed right 右子树结点.
+		 */
+		function BinaryTree(key, left, right) {
+		  this.key = key; //当前结点的值
+		  if (key === null) {
+			this.left = null; //左子树
+			this.right = null; //右子树
+		  } else if (left === null) {
+			this.left = new BinaryTree();
+			this.right = new BinaryTree();
+		  } else {
+			this.left = left;
+			this.right = right;
+		  }
+		}
+	</script>
+</body>
+</html>

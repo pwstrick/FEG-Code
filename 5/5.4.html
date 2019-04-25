@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>5.4</title>
+</head>
+<body>
+	<script>
+		function LNode() {
+		  this.mElem = null;
+		  this.mNext = null;
+		}
+
+		function StackLinked() {
+		  this.mNext = null; //头“指针”，指向栈顶元素
+		  this.mLength = 0; //栈内元素个数
+		}
+		StackLinked.prototype = {
+
+			/** 
+			 * 判断栈是否空栈
+			 * @return boolean 如果为空栈返回true,否则返回false
+			 */
+			getIsEmpty: function () {
+			  return this.mNext == null;
+			},
+
+			/** 
+			 * 将所有元素出栈
+			 * @return array 返回所有栈内元素
+			 */
+			getAllPopStack: function () {
+			  var e = [];
+			  if (!this.getIsEmpty()) {
+				while (this.mNext != null) {
+				  e.push(this.mNext.mElem);
+				  this.mNext = this.mNext.mNext;
+				}
+			  }
+			  this.mLength = 0;
+			  return e;
+			},
+
+			/** 
+			 * 返回栈内元素个数
+			 * @return int
+			 */
+			getLength: function () {
+			  return this.mLength;
+			},
+
+			/** 
+			 * 元素进栈
+			 * @param mixed e 进栈元素值
+			 * @return void
+			 **/
+			push: function (e) {
+			  var newLn = new LNode();
+			  newLn.mElem = e;
+			  newLn.mNext = this.mNext;
+			  this.mNext = newLn;
+			  this.mLength++;
+			},
+
+			/** 
+			 * 元素出栈
+			 * @return boolean 出栈成功返回true,否则返回false
+			 **/
+			pop: function () {
+			  if (this.getIsEmpty()) {
+				return false;
+			  }
+			  var p = this.mNext,
+				e = p.mElem;
+			  this.mNext = p.mNext;
+			  this.mLength--;
+			  return true;
+			},
+
+			/** 
+			 * 仅返回栈内所有元素
+			 * @return array 栈内所有元素组成的一个数组
+			 */
+			getAllElem: function () {
+			  var sldata = [],
+				p;
+			  if (!this.getIsEmpty()) {
+				p = this.mNext;
+				while (p != null) {
+				  sldata.push(p.mElem);
+				  p = p.mNext;
+				}
+			  }
+			  return sldata;
+			},
+
+			/** 
+			 * 返回栈顶元素
+			 * @return element 返回栈顶元素
+			 */
+			top: function () {
+			  if (this.getIsEmpty()) {
+				return false;
+			  }
+			  var list = this.getAllElem();
+			  return list[0];
+			}
+		};
+
+		/** 
+		 * 根据入栈序列判断出栈后和另一个的出栈序列是否相等
+		 */
+		function isPopSerial(push, pop) {
+		  if (push.getIsEmpty() || pop.getIsEmpty())
+			return false;
+		  var pushLen = push.getLength(),
+			popLen = pop.getLength();
+		  if (pushLen != popLen)
+			return false;
+		  var pushIndex = 0,
+			popIndex = 0,
+			stack = new StackLinked(),
+			pushList = push.getAllElem(),
+			popList = pop.getAllElem();
+		  while (pushIndex < pushLen) {
+			//把push序列依次入栈，直到栈顶元素等于pop序列的第一个元素
+			stack.push(pushList[pushIndex]);
+			pushIndex++;
+			//栈顶元素出栈，pop序列移动到下一个元素
+			while (!stack.getIsEmpty() && stack.top() == popList[popIndex]) {
+			  stack.pop();
+			  popIndex++;
+			}
+		  }
+		  //栈为空，且pop序列中元素都被遍历过
+		  return stack.getIsEmpty() && popIndex == popLen;
+		}
+
+		var stackPUSH = new StackLinked(),
+		  stackPOP = new StackLinked(),
+		  push = '';
+		for (var i = 1; i <= 5; i++) {
+		  stackPUSH.push(i);
+		  push += i;
+		}
+		var pop = '52143';
+		stackPOP.push(5);
+		stackPOP.push(2);
+		stackPOP.push(1);
+		stackPOP.push(4);
+		stackPOP.push(3);
+
+		if (isPopSerial(stackPUSH, stackPOP)) {
+		  console.log(pop, "是", push, "的一个pop序列");
+		} else {
+		  console.log(pop, "不是", push, "的一个pop序列");
+		}
+	</script>
+</body>
+</html>

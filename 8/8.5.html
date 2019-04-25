@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.5</title>
+</head>
+<body>
+	<script>
+		//产生的随机数是1~7之间的整数
+		function rand7() {
+		  return Math.floor(Math.random() * 8) % 7 + 1;
+		}
+
+		//产生的随机数是1~10之间的整数
+		function rand10() {
+		  var x = 0;
+		  do {
+			x = (rand7() - 1) * 7 + rand7();
+		  } while (x > 40);
+		  return x % 10 + 1;
+		}
+
+		var txt = "";
+		for (var i = 0; i != 10; ++i)
+		  txt += rand10() + " ";
+		console.log(txt);
+
+	</script>
+</body>
+</html>

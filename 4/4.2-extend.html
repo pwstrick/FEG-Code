@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.2引申</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, data) {
+		  this.id = id; //结点id
+		  this.data = data; //结点名称
+		  this.next = null; //下一结点
+		}
+
+		//单链表
+		function linkList(id, data) {
+		  this.header = new node(id, data); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+			  var current = this.header;
+			  while (current.next != null) {
+				if (current.next.id > node.id) {
+				  break;
+				}
+				current = current.next;
+			  }
+			  node.next = current.next;
+			  current.next = node;
+			},
+			//free: function(id) {   
+			//	var current = this.header,
+			//		flag = false;   
+			//	while (current.next != null) {  
+			//		if (current.next.id == id) {   
+			//			flag = true;   
+			//			break;   
+			//		}   
+			//		current = current.next;   
+			//	}  
+			//	if (flag) {   
+			//		current.next = current.next.next;   
+			//	} else {   
+			//		console.log("未找到id=", id, "的结点！");   
+			//	}   
+			//},
+			clear: function () { //清空链表
+			  this.header = null;
+			},
+			getLinkList: function () { //获取链表
+			  var current = this.header;
+			  if (current.next == null) {
+				console.log("链表为空");
+				return;
+			  }
+			  var txt = "";
+			  while (current.next != null) {
+				txt += current.next.data + " ";
+				if (current.next.next == null) {
+				  break;
+				}
+				current = current.next;
+			  }
+			  console.log(txt);
+			},
+			removeDup: function() {	//删除带头结点的无序单链表中重复的结点
+				var head = this.header;
+				if(head == null || head.next == null)
+					return;
+				var outerCur = head.next, //外层循环指针，指向链表的第一个结点
+					innerCur = null, //内存循环用来遍历ourterCur后面的结点
+					innerPre = null, //innerCur的前驱结点
+					tmp = null; //用来指向被删除结点的指针
+				for(; outerCur!=null; outerCur=outerCur.next){
+					for(innerCur=outerCur.next, innerPre=outerCur; innerCur!=null;){
+						//找到重复的结点并删除
+						if(outerCur.data == innerCur.data){
+							tmp=innerCur;
+							innerPre.next=innerCur.next;
+							innerCur=innerCur.next;
+						}else{
+							innerPre=innerCur;
+							innerCur=innerCur.next;
+						}
+					}
+				}
+			},
+			removeDupRecursion: function (head){ //对不带头结点的单链删除重复结点
+			   if (head.next == null)   
+				  return head;
+			   var pointer = null,
+				cur = head; 
+			   //对以head.next为首的子链表删除重复的结点
+			   head.next = this.removeDupRecursion(head.next);
+			   pointer = head.next;
+			   //找出以head.next为首的子链表中与head结点相同的结点并删除
+			   while (pointer != null) {
+				   if (head.data == pointer.data){
+					   cur.next = pointer.next;
+				   }else{
+					   cur = cur.next;
+				  }
+				  pointer = pointer.next; 
+				}
+				return head;
+			 },
+			 removeDupTwo: function (){		//对带头结点的单链删除重复结点
+				head = this.header;
+				if(head == null)
+					return;
+				head.next = this.removeDupRecursion(head.next);
+			 },
+			removeDupThree: function (){
+				var head = this.header;
+				if(head.next == null)
+					return head;
+				var cur = head,
+					tmp;
+				while (cur.next){
+					if(cur.data == cur.next.data)   {
+						tmp = cur.next;
+						cur.next = cur.next.next;
+					}else{
+						cur = cur.next;
+					}
+				}
+				return head;
+			}
+		};
+
+		var lists = new linkList();   
+		lists.addLink(new node(1,1));   
+		lists.addLink(new node(2,3));
+		lists.addLink(new node(3,3));
+		lists.addLink(new node(4,5));
+		lists.addLink(new node(5,5));
+		lists.addLink(new node(6,7));
+		console.log("删除重复结点前: ");
+		lists.getLinkList ();   
+		console.log("删除重复结点后：");
+		lists.removeDupThree();
+		lists.getLinkList();   
+		//释放链表所占的空间  
+		lists.clear();
+
+	</script>
+</body>
+</html>

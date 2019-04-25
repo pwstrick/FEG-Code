@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.12</title>
+</head>
+<body>
+	<script>
+		var BITS = 32; //以32位平台为例
+		//获取x与y的异或的结果
+		function myXOR1(x, y) {
+		  var res = 0,
+			xoredBit, b1, b2;
+		  for (var i = BITS - 1; i >= 0; i--) {
+			//获取x与y当前的位值
+			b1 = (x & (1 << i)) > 0;
+			b2 = (y & (1 << i)) > 0;
+			//只有这两位都是1或0的时候结果为0
+			xoredBit = b1 == b2 ? 0 : 1;
+			res <<= 1;
+			res |= xoredBit;
+		  }
+		  return res;
+		}
+
+		var x = 3,
+		  y = 5;
+		console.log(myXOR1(x, y));
+		
+		function myXOR2(x, y) {
+		  return (x | y) & (~x | ~y);
+		}
+		var x = 3,
+		  y = 5;
+		console.log(myXOR2(x, y));
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>9.6</title>
+</head>
+<body>
+	<script>
+		function factorIsOdd(a) {
+		  var total = 0;
+		  for (var i = 1; i <= a; i++) {
+			if (a % i == 0)
+			  total++;
+		  }
+		  if (total % 2 == 1)
+			return 1;
+		  return 0;
+		}
+		function totalCount(num, n) {
+		  var count = 0;
+		  for (var i = 0; i < n; i++) {
+			//判断因子数是不是奇数，奇数（灯亮）则加1
+			if (factorIsOdd(num[i])) {
+			  console.log("亮着的灯的编号是：", num[i]);
+			  count++;
+			}
+		  }
+		  return count;
+		}
+
+		var num = new Array(101)
+		  .join("0").split("")
+		  .map(function (value, index) {
+			return index + 1;
+		  });
+		var count = totalCount(num, 100);
+		console.log("最后总共有", count, "盏灯亮着。");
+
+	</script>
+</body>
+</html>

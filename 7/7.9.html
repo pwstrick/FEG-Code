@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.9</title>
+</head>
+<body>
+	<script>
+		function maxSubArray1(arr) {
+		  var len = arr.length,
+			sum = 0,
+			maxSum = 0;
+		  for (var i = 0; i < len; i++)
+			for (var j = i; j < len; j++) {
+			  sum = 0;
+			  for (var k = i; k < j; k++)
+				sum += arr[k];
+			  if (sum > maxSum)
+				maxSum = sum;
+			}
+		  return maxSum;
+		}
+
+		var arr = [1, -2, 4, 8, -4, 7, -1, -5];
+		console.log("连续最大和为：", maxSubArray1(arr));
+		
+		function maxSubArray2(arr) {
+		  var maxSum = Math.min.apply(null, arr),
+			len = arr.length,
+			sum;
+		  for (var i = 0; i < len; i++) {
+			sum = 0;
+			for (var j = i; j < len; j++) {
+			  sum += arr[j];
+			  if (sum > maxSum) {
+				maxSum = sum;
+			  }
+			}
+		  }
+		  return maxSum;
+		}
+		var arr = [1, -2, 4, 8, -4, 7, -1, -5];
+		console.log("连续最大和为：", maxSubArray2(arr));
+		
+		function maxNum(m, n) {
+		  return m > n ? m : n;
+		}
+		function maxSubArray3(arr) {
+		  var End = [],
+			All = [],
+			n = arr.length;
+		  End[n - 1] = arr[n - 1];
+		  All[n - 1] = arr[n - 1];
+		  End[0] = All[0] = arr[0];
+		  for (var i = 1; i < n; ++i) {
+			End[i] = maxNum(End[i - 1] + arr[i], arr[i]);
+			All[i] = maxNum(End[i], All[i - 1]);
+		  }
+		  var maxSum = All[n - 1];
+		  return maxSum;
+		}
+		var arr = [1, -2, 4, 8, -4, 7, -1, -5];
+		console.log("连续最大和为：", maxSubArray3(arr));
+
+		function maxSubArray4(arr) {
+		  var nAll = arr[0], //最大子数组和
+			nEnd = arr[0], //包含最后一个元素的最大子数组和
+			n = arr.length;
+		  for (i = 1; i < n; ++i) {
+			nEnd = maxNum(nEnd + arr[i], arr[i]);
+			nAll = maxNum(nEnd, nAll);
+		  }
+		  return nAll;
+		}
+		var arr = [1, -2, 4, 8, -4, 7, -1, -5];
+		console.log("连续最大和为：", maxSubArray4(arr));
+
+
+	</script>
+</body>
+</html>

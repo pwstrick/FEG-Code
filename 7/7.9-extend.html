@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.9引申</title>
+</head>
+<body>
+	<script>
+		function maxSubArray(arr) {
+		  var maxSum = Math.min.apply(null, arr), //最大子数组和
+			nSum = 0, //包含子数组最后一位的最大值
+			nStart = 0,
+			n = arr.length,
+			begin,
+			end;
+		  for (var i = 0; i < n; i++) {
+			if (nSum < 0) {
+			  nSum = arr[i];
+			  nStart = i;
+			} else {
+			  nSum += arr[i];
+			}
+			if (nSum > maxSum) {
+			  maxSum = nSum;
+			  begin = nStart;
+			  end = i;
+			}
+		  }
+		  console.log("连续最大和为：", maxSum);
+		  console.log("最大和对应的数组起始与结束坐标分别为：", begin, end);
+		}
+
+		var arr = [1, -2, 4, 8, -4, 7, -1, -5];
+		maxSubArray(arr);
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.13</title>
+</head>
+<body>
+	<script>
+		function getAllSubset(array, mask, length, c) {
+		  var txt;
+		  if (length == c) {
+			txt = "{ ";
+			for (i = 0; i < length; i++) {
+			  if (mask[i]) {
+				txt += array[i];
+			  }
+			}
+			txt += " }";
+			console.log(txt);
+			return;
+		  }
+		  mask[c] = 1;
+		  getAllSubset(array, mask, length, c + 1);
+		  mask[c] = 0;
+		  getAllSubset(array, mask, length, c + 1);
+		}
+
+		var array = ['a', 'b', 'c'],
+		  length = array.length,
+		  mask = [0];
+		getAllSubset(array, mask, length, 0);
+	</script>
+</body>
+</html>

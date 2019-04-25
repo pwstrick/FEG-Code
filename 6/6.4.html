@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>6.4</title>
+</head>
+<body>
+	<script>
+		var items = [
+			{'id': 1, 'pid': 0, 'name': '江西省'},
+			{'id': 2, 'pid': 0, 'name': '黑龙江省'},
+			{'id': 3, 'pid': 1, 'name': '南昌市'},
+			{'id': 4, 'pid': 2, 'name': '哈尔滨市'},
+			{'id': 5, 'pid': 2, 'name': '鸡西市'},
+			{'id': 6, 'pid': 4, 'name': '香坊区'},
+			{'id': 7, 'pid': 4, 'name': '南岗区'},
+			{'id': 8, 'pid': 6, 'name': '和兴路'},
+			{'id': 9, 'pid': 7, 'name': '西大直街'},
+			{'id': 10, 'pid': 8, 'name': '东北林业大学'},
+			{'id': 11, 'pid': 9, 'name': '哈尔滨工业大学'},
+			{'id': 12, 'pid': 8, 'name': '哈尔滨师范大学'},
+			{'id': 13, 'pid': 1, 'name': '赣州市'},
+			{'id': 14, 'pid': 13, 'name': '赣县'},
+			{'id': 15, 'pid': 13, 'name': '于都县'},
+			{'id': 16, 'pid': 14, 'name': '茅店镇'},
+			{'id': 17, 'pid': 14, 'name': '大田乡'},
+			{'id': 18, 'pid': 16, 'name': '义源村'},
+			{'id': 19, 'pid': 16, 'name': '上坝村'},
+		];
+		//引用结构排序
+		function arrayToTree1(items) {
+		  var tree = [],
+			current;
+		  items.forEach(function (value, key) {
+			if (value.pid == 0) { //代表根结点
+			  tree.push(value);
+			} else { //找到其父类
+			  current = items[value.pid - 1];
+			  current.son ? current.son.push(value) : (current.son = [value]);
+			}
+		  });
+		  return tree;
+		}
+		//递归排序
+		function arrayToTree2(items, pid){
+			var tree = [];
+			items.forEach(function (v, k) {
+				if(v.pid == pid){                        
+					v.son = arrayToTree2(items, v.id);  
+					tree.push(v);                             
+				} 
+			});
+			return tree;                                  
+		}
+		
+		//console.log(arrayToTree1(items));
+		console.log(arrayToTree2(items, 0));
+	</script>
+</body>
+</html>

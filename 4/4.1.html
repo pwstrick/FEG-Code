@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.1</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, name) {
+		  this.id = id; //结点id
+		  this.name = name; //结点名称
+		  this.next = null; //下一结点
+		}
+
+		//单链表
+		function linkList(id, name) {
+		  this.header = new node(id, name); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+			  var current = this.header;
+			  while (current.next != null) {
+				if (current.next.id > node.id) {
+				  break;
+				}
+				current = current.next;
+			  }
+			  node.next = current.next;
+			  current.next = node;
+			},
+			clear: function () { //清空链表
+			  this.header = null;
+			},
+			getLinkList: function () { //获取链表
+			  var current = this.header;
+			  if (current.next == null) {
+				console.log("链表为空");
+				return;
+			  }
+			  var txt = "";
+			  while (current.next != null) {
+				txt += current.next.name + " ";
+				if (current.next.next == null) {
+				  break;
+				}
+				current = current.next;
+			  }
+			  console.log(txt);
+			},
+			reverse: function () { //对单链表进行逆序
+			  var head = this.header;
+			  //判断链表是否为空
+			  if (head == null || head.next == null) {
+				console.log("链表为空");
+				return;
+			  }
+			  var pre = null, //前驱结点
+				cur = null, //当前结点
+				next = null; //后继结点
+			  //把链表首结点变为尾结点
+			  cur = head.next;
+			  next = cur.next;
+			  cur.next = null;
+			  pre = cur;
+			  cur = next;
+			  //使当前遍历到的结点cur指向其前驱结点
+			  while (cur.next != null) {
+				next = cur.next;
+				cur.next = pre;
+				pre = cur;
+				cur = cur.next;
+				cur = next;
+			  }
+			  //结点最后一个结点指向倒数第二个结点
+			  cur.next = pre;
+			  //链表的头结点指向原来链表的尾结点
+			  head.next = cur;
+			},
+			recursiveReverse: function (firstRef) {
+			  if (firstRef == null)
+				return;
+			  var cur, rest;
+			  cur = firstRef; //cur: 1->2->3->4->5->6->7
+			  rest = cur.next; //rest: 2->3->4->5->6->7
+			  if (rest == null) {
+				//头结点指向逆序后链表的第一个结点
+				this.header.next = firstRef;
+				return;
+			  }
+			  //逆序rest，逆序后链表：7->6->5->4->3->2
+			  this.recursiveReverse(rest);
+			  //把第一个结点添加到尾结点：7->6->5->4->3->2->1
+			  cur.next.next = cur;
+			  cur.next = null;
+			},
+			reverseTwo: function () { //对带头结点的单链表进行逆序
+			  var head = this.header;
+			  if (head == null || head.next == null)
+				return;
+			  //获取链表第一个结点
+			  var firstNode = head.next;
+			  //对链表进行逆序
+			  this.recursiveReverse(firstNode);
+			},
+			reverseThree: function () { //对单链表进行逆序
+			  var head = this.header;
+			  //判断链表是否为空
+			  if (head == null || head.next == null)
+				return;
+			  var cur = null, //当前结点
+				next = null; //后继结点
+			  cur = head.next.next;
+			  //设置链表第一个结点为尾结点
+			  head.next.next = null;
+			  //把遍历到结点插入到头结点的后面
+			  while (cur != null) {
+				next = cur.next;
+				cur.next = head.next;
+				head.next = cur;
+				cur = next;
+			  }
+			}
+		};
+
+		var lists = new linkList();
+		for (var i = 0; i < 8; i++){
+		  lists.addLink(new node(i, i));
+		}
+		console.log("逆序前: ");
+		//lists.getLinkList();
+		lists.reverse();
+		console.log("逆序后: ");
+		//lists.getLinkList();
+		//释放链表所占的空间  
+		lists.clear();
+		
+		var list2 = new linkList(),
+			a = [];
+		for (var i = 0; i < 8; i++){
+			a[i] = new node(i, i);
+			list2.addLink(a[i]);
+		}
+		console.log("逆序前: ");
+		//list2.getLinkList();
+		//list2.reverseTwo();
+		console.log("逆序后: ");
+		//list2.getLinkList();
+		//释放链表所占的空间  
+		list2.clear();
+		//console.log(a);
+		
+		var list3 = new linkList();
+		for (var i = 0; i < 8; i++){
+			list3.addLink(new node(i, i));
+		}
+		console.log("逆序前: ");
+		list3.getLinkList();
+		list3.reverseThree();
+		console.log("逆序后: ");
+		list3.getLinkList();
+		//释放链表所占的空间  
+		list3.clear();
+	</script>
+</body>
+</html>

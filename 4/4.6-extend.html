@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.6引申</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, data) {
+			this.id = id; //结点id
+			this.data = data; //结点名称
+			this.next = null; //下一结点
+		}
+
+		//单链表
+		function linkList(id, data) {
+			this.header = new node(id, data); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+				var current = this.header;
+				while (current.next != null) {
+					if (current.next.id > node.id) {
+						break;
+					}
+					current = current.next;
+				}
+				node.next = current.next;
+				current.next = node;
+			},
+			clear: function () { //清空链表
+				this.header = null;
+			},
+			getLinkList: function () { //获取链表
+				var current = this.header;
+				if (current.next == null) {
+					console.log("链表为空");
+					return;
+				}
+				var txt = "";
+				while (current.next != null) {
+					txt += current.next.data + " ";
+					if (current.next.next == null) {
+						break;
+					}
+					current = current.next;
+				}
+				console.log(txt);
+			}
+		};
+
+		/*
+		 ** 函数功能：构建链表
+		 */
+		function ConstructList() {
+			var list = new linkList(),
+					cur = list,
+					tmp;
+			//构造第一个链表
+			for (var i = 1; i < 8; i++) {
+				tmp = new linkList();
+				tmp.header.data = i;
+				cur.header.next = tmp;
+				cur = tmp;
+			}
+			cur.header.next = list.header.next.header.next.header.next;
+			return list.header;
+		}
+
+		/*
+		 ** 函数功能：判断单链表是否有环
+		 ** 输入参数：head:链表头结点
+		 ** 返回值： null:无环，否则返回slow与fast指针相遇点的指针
+		 */
+		function isLoop(head) {
+			if (head == null || head.next == null)
+				return null;
+			//初始两个指针都指向链表第一个结点
+			var slow = head.next,
+					fast = head.next;
+			while (fast && fast.header.next) {
+				slow = slow.header.next;
+				fast = fast.header.next.header.next;
+				if (slow == fast)
+					return slow;
+			}
+			return null;
+		}
+
+		/*
+		 ** 函数功能：找出环的入口点
+		 ** 输入参数：meetNode:fast与slow指针相遇点
+		 ** 返回值： null:无环，否则返回slow与fast指针相遇点的指针
+		 */
+		function FindLoopNode(head, meetNode) {
+			var first = head.next,
+					second = meetNode;
+			while (first != second) {
+				first = first.header.next;
+				second = second.header.next;
+			}
+			return first;
+		}
+
+		var head = ConstructList(),
+				meetNode = isLoop(head);
+		if (meetNode != null) {
+			console.log("有环");
+			loopNode = FindLoopNode(head, meetNode);
+			console.log("环的入口点为：", loopNode.header.data);
+		} else {
+			console.log("无环");
+		}
+	</script>
+</body>
+</html>

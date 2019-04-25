@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.20</title>
+</head>
+<body>
+	<script>
+		var N = 4;
+		//打印最终结果
+		function printSolution(sol) {
+		  var txt;
+		  for (var i = 0; i < N; i++) {
+			txt = "";
+			for (var j = 0; j < N; j++)
+			  txt += sol[i][j] + " ";
+			console.log(txt);
+		  }
+		}
+		//判断x和y是不是合理的可走单元
+		function isSafe(maze, x, y) {
+		  return x >= 0 && x < N &&
+			y >= 0 && y < N &&
+			maze[x][y] == 1;
+		}
+		function getPath(maze, x, y, sol) {
+		  //走到了目的地
+		  if (x == N - 1 && y == N - 1) {
+			sol[x][y] = 1;
+			return true;
+		  }
+		  //检查maze[x][y]是否是合理的可走单元
+		  if (isSafe(maze, x, y)) {
+			sol[x][y] = 1; //标记当前的单元为1
+			//向右走一步并判断是否能走到终点
+			if (getPath(maze, x + 1, y, sol))
+			  return true;
+			//向下走一步并判断是否能走到终点
+			if (getPath(maze, x, y + 1, sol))
+			  return true;
+			//如果上面两步都不能走到终点，回溯到上一步
+			sol[x][y] = 0;
+			return false;
+		  }
+		  return false;
+		}
+
+		var maze = [
+			[1, 0, 0, 0],
+			[1, 1, 0, 1],
+			[0, 1, 0, 0],
+			[1, 1, 1, 1]
+		  ],
+		  sol = [
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0]
+		  ];
+		if (!getPath(maze, 0, 0, sol)) {
+		  console.log("不存在合理路径");
+		} else {
+		  printSolution(sol);
+		}
+	</script>
+</body>
+</html>

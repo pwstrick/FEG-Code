@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.6</title>
+</head>
+<body>
+	<script>
+		function zeroCount(n) {
+		  var count = 0;
+		  while (n > 0) {
+			n = Math.floor(n / 5);
+			count += n;
+		  }
+		  return count;
+		}
+
+		console.log("1024!末尾0的个数为：", zeroCount(1024));
+
+	</script>
+</body>
+</html>

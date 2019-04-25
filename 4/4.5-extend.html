@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.5引申</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, data) {
+			this.id = id; //结点id
+			this.data = data; //结点名称
+			this.next = null; //下一结点
+		}
+
+		//单链表
+		function linkList(id, data) {
+			this.header = new node(id, data); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+				var current = this.header;
+				while (current.next != null) {
+					if (current.next.id > node.id) {
+						break;
+					}
+					current = current.next;
+				}
+				node.next = current.next;
+				current.next = node;
+			},
+			clear: function () { //清空链表
+				this.header = null;
+			},
+			getLinkList: function () { //获取链表
+				var current = this.header;
+				if (current.next == null) {
+					console.log("链表为空");
+					return;
+				}
+				var txt = "";
+				while (current.next != null) {
+					txt += current.next.data + " ";
+					if (current.next.next == null) {
+						break;
+					}
+					current = current.next;
+				}
+				console.log(txt);
+			},
+			RotateK: function (k) { //把链表右旋K个位置
+				var head = this.header;
+				if (head == null || head.next == null)
+					return head;
+				var slow = null,
+						fast = null;
+				//fast指针先走K步，然后与slow指针同时向后走
+				slow = fast = head.next;
+				for (var i = 0; i < k && fast; ++i) { //前移k步
+					fast = fast.next;
+				}
+				//判断k是否已超出链表长度
+				if (i < k)
+					return null;
+				//循环结束后slow指向链表倒数第K+1个元素，fast指向链表最后一个元素
+				while (fast.next != null) {
+					slow = slow.next;
+					fast = fast.next;
+				}
+				var tmp = slow;
+				slow = slow.next;
+				tmp.next = null; //如图4-5中的（2）
+				fast.next = head.next; //如图4-5中的（3）
+				head.next = slow; //如图4-5中的（4）
+				return slow;
+			}
+		};
+
+		var lists = new linkList();
+		for (var i = 1; i < 8; i++) {
+			lists.addLink(new node(i, i));
+		}
+		console.log("旋转前：");
+		lists.getLinkList();
+		console.log("旋转后：");
+		lists.RotateK(3);
+		lists.getLinkList();
+		//释放链表所占的空间
+		lists.clear();
+	</script>
+</body>
+</html>

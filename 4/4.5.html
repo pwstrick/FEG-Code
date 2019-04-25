@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.5</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, data) {
+			this.id = id; //结点id
+			this.data = data; //结点名称
+			this.next = null; //下一结点
+		}
+
+		//单链表
+		function linkList(id, data) {
+			this.header = new node(id, data); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+				var current = this.header;
+				while (current.next != null) {
+					if (current.next.id > node.id) {
+						break;
+					}
+					current = current.next;
+				}
+				node.next = current.next;
+				current.next = node;
+			},
+			clear: function () { //清空链表
+				this.header = null;
+			},
+			getLinkList: function () { //获取链表
+				var current = this.header;
+				if (current.next == null) {
+					console.log("链表为空");
+					return;
+				}
+				var txt = "";
+				while (current.next != null) {
+					txt += current.next.data + " ";
+					if (current.next.next == null) {
+						break;
+					}
+					current = current.next;
+				}
+				console.log(txt);
+			},
+			FindLastK: function (k) { //找出链表倒数第K个结点
+				var head = this.header;
+				if (head == null || head.next == null)
+					return head;
+				var slow = null,
+						fast = null;
+				slow = fast = head.next;
+				for (var i = 0; i < k && fast; ++i) { //前移k步
+					fast = fast.next;
+				}
+				//判断k是否已超出链表长度
+				if (i < k)
+					return null;
+				while (fast != null) {
+					slow = slow.next;
+					fast = fast.next;
+				}
+				return slow;
+			}
+		};
+
+		var lists = new linkList();
+		for (var i = 1; i < 8; i++) {
+			lists.addLink(new node(i, i));
+		}
+		console.log("链表： ");
+		lists.getLinkList();
+		console.log("链表倒数第3个元素为：");
+		var result = lists.FindLastK(3);
+		console.log(result.data);
+		//释放链表所占的空间
+		lists.clear();
+	</script>
+</body>
+</html>

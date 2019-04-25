@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>1.3</title>
+</head>
+<body>
+	<script>
+		function hanou(n, x, y, z) {
+			if (n == 1) {
+				console.log("移动片 1 从 " + x + " 到 " + z);
+			} else {
+				hanou(n - 1, x, z, y);
+				console.log("移动片 " + n + " 从 " + x + " 到 " + z);
+				hanou(n - 1, y, x, z);
+			}
+		}
+		hanou(3, "A", "B", "C");
+	</script>
+</body>
+</html>

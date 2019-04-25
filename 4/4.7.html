@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.7</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, data) {
+			this.id = id; //结点id
+			this.data = data; //结点名称
+			this.next = null; //下一结点
+		}
+
+		//单链表
+		function linkList(id, data) {
+			this.header = new node(id, data); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+				var current = this.header;
+				while (current.next != null) {
+					if (current.next.id > node.id) {
+						break;
+					}
+					current = current.next;
+				}
+				node.next = current.next;
+				current.next = node;
+			},
+			clear: function () { //清空链表
+				this.header = null;
+			},
+			getLinkList: function () { //获取链表
+				var current = this.header;
+				if (current.next == null) {
+					console.log("链表为空");
+					return;
+				}
+				var txt = "";
+				while (current.next != null) {
+					txt += current.next.data + " ";
+					if (current.next.next == null) {
+						break;
+					}
+					current = current.next;
+				}
+				console.log(txt);
+			},
+			Reverse: function () { //把链表相邻元素翻转
+				var head = this.header;
+				//判断链表是否为空
+				if (head == null || head.next == null)
+					return;
+				var cur = head.next, //当前遍历结点
+						pre = head, //当前结点的前驱结点
+						next = null; //当前结点后继结点的后继结点
+				while (cur && cur.next) {
+					next = cur.next.next; //见图4-6中的（1）
+					pre.next = cur.next; //见图4-6中的（2）
+					cur.next.next = cur; //见图4-6中的（3）
+					cur.next = next; //见图4-6中的（4）
+					pre = cur; //见图4-6中的（5）
+					cur = next; //见图4-6中的（6）
+				}
+			}
+		};
+
+		var lists = new linkList();
+		for (var i = 1; i < 8; i++) {
+			lists.addLink(new node(i, i));
+		}
+		console.log("顺序输出：");
+		lists.getLinkList();
+		console.log("逆序输出：");
+		lists.Reverse();
+		lists.getLinkList();
+		//释放链表所占的空间
+		lists.clear();
+	</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>9.2</title>
+</head>
+<body>
+	<script>
+		/*
+		 ** 函数功能：求和为n的所有整数组合
+		 ** 输入参数：sum为正整数，result为组合结果，count记录组合中的数字个数
+		 */
+		function getAllCombination(sum, result, count) {
+		  if (sum < 0)
+			return;
+		  var txt = "";
+		  //数字的组合满足和为sum的条件，打印出所有组合
+		  if (sum == 0) {
+			for (var i = 0; i < count; i++)
+			  txt += result[i] + " ";
+			console.log("满足条件的组合：", txt);
+			return;
+		  }
+		  txt = "";
+		  for (i = 0; i < count; i++)
+			txt += result[i] + " ";
+		  console.log("----当前组合：", txt, "----");	//打印debug信息，为了便于理解
+		  i = (count == 0 ? 1 : result[count - 1]);	//确定组合中下一个取值
+		  console.log("---i=", i, "count=", count, "---");	//打印debug信息，为了便于理解
+		  for (; i <= sum;) {
+			result[count++] = i;
+			getAllCombination(sum - i, result, count); //求和为sum-i的组合
+			count--; //递归完成后，去掉最后一个组合的数字
+			i++; //找下一个数字作为组合中的数字
+		  }
+		}
+
+		var n = 4,
+		  result = []; //存储和为n的组合方式
+		//找出和为4的所有整数的的组合
+		getAllCombination(n, result, 0);
+		
+		
+	</script>
+</body>
+</html>

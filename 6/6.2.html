@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>6.2</title>
+</head>
+<body>
+	<script>
+		/**
+		 * 用数组表示的二叉树
+		 */
+		function BinaryTree(size, root) {
+		  this.size = size;
+		  this.array = [];
+		  for (i = 0; i < size; i++) {
+			this.array[i] = i;
+		  }
+		  this.array[0] = root;
+		}
+		BinaryTree.prototype = {
+			searchNode: function (nodeCode) { //查询结点
+			  if (nodeCode >= this.size || nodeCode < 0) {
+				return false;
+			  }
+			  return this.array[nodeCode];
+			},
+			addNode: function (nodeCode, place, nodeValue) { //增加树结点
+			  if (nodeCode < this.size || nodeCode < 0) {
+				return false;
+			  }
+			  //当添加左孩子时，索引加1；当添加右孩子时，索引加2
+			  var index = place == 0 ? (nodeCode + 1) : (nodeCode + 2);
+			  //存在nodeCode这个结点就结束接下来的添加操作
+			  if (this.array[nodeCode + 1]) {
+				return false;
+			  }
+			  //新结点在相应位置补值
+			  if (nodeCode >= this.size) {
+				for (var i = this.size; i < nodeCode + 1; i++) {
+				  this.array[i] = i;
+				}
+				this.size = index;
+			  }
+			  this.array[index] = nodeValue;
+			},
+			deleteNode: function (nodeCode) { //删除树结点
+			  if (nodeCode >= this.size || nodeCode < 0) {
+				return false;
+			  }
+			  this.array.splice(nodeCode, 1);
+			},
+			showTree: function () { //遍历树
+			  var txt = "";
+			  this.array.forEach(function (value, key) {
+				txt += value + " ";
+			  });
+			  console.log(txt);
+			}
+		};
+
+		//产生一个以2为根结点，9个子结点的二叉树
+		var BinaryTree = new BinaryTree(10, 2);
+		console.log("初始化的二叉树：");
+		BinaryTree.showTree(); //遍历树
+		console.log("搜索根结点：");
+		console.log(BinaryTree.searchNode(0)); //搜索1这个结点
+		BinaryTree.addNode(10, 1, 0);
+		console.log("增加0结点后的二叉树：");
+		BinaryTree.showTree(); //遍历树
+		BinaryTree.deleteNode(1); //删除根结点的下一个结点
+		console.log("删除根结点下一个结点后的二叉树：");
+		BinaryTree.showTree(); //遍历树
+		
+		var printTxt; //要在控制台输出的文本
+		/**
+		 * 二叉树的结点类
+		 */
+		function Node(index, data, parentNode, lChild, rChild) {
+		  this.index = index; //索引
+		  this.data = data; //结点值 
+		  this.lChild = lChild; //左孩子
+		  this.rChild = rChild; //右孩子
+		  this.parentNode = parentNode; //父结点
+		}
+		Node.prototype = {
+			SearchNode: function (nodeIndex) { //搜索结点
+			  if (this.index == nodeIndex) {
+				return this;
+			  }
+			  if (this.lChild != null) {
+				if (this.lChild.index == nodeIndex) {
+				  return this.lChild;
+				} else {
+				  tempNode = this.lChild.SearchNode(nodeIndex);
+				  if (tempNode != null) {
+					return tempNode;
+				  }
+				}
+			  }
+			  if (this.rChild != null) {
+				if (this.rChild.index == nodeIndex) {
+				  return this.rChild;
+				} else {
+				  tempNode = this.rChild.SearchNode(nodeIndex);
+				  if (tempNode != null) {
+					return tempNode;
+				  }
+				}
+			  }
+			  return null;
+			},
+			DeleteNode: function () { //删除结点
+			  if (this.lChild != null) {
+				this.lChild.DeleteNode();
+			  }
+			  if (this.rChild != null) {
+				this.rChild.DeleteNode();
+			  }
+			  if (this.parentNode != null) {
+				if (this.parentNode.lChild == this) {
+				  this.parentNode.lChild = null;
+				} else if (this.parentNode.rChild == this) {
+				  this.parentNode.rChild = null;
+				}
+			  }
+			},
+			PreOrderTraversal: function () { //前序遍历
+			  printTxt += this.data + " ";
+			  if (this.lChild != null) {
+				this.lChild.PreOrderTraversal();
+			  }
+			  if (this.rChild != null) {
+				this.rChild.PreOrderTraversal();
+			  }
+			},
+			InOrderTraversal: function () { //中序遍历
+			  if (this.lChild != null) {
+				this.lChild.InOrderTraversal();
+			  }
+			  printTxt += this.data + " ";
+			  if (this.rChild != null) {
+				this.rChild.InOrderTraversal();
+			  }
+			},
+			PostOrderTraversal: function () { //后序遍历
+			  if (this.lChild != null) {
+				this.lChild.PostOrderTraversal();
+			  }
+			  if (this.rChild != null) {
+				this.rChild.PostOrderTraversal();
+			  }
+			  printTxt += this.data + " ";
+			}
+		};
+
+		function Tree(index, data) {
+		  this.root = new Node(index, data);
+		}
+		Tree.prototype = {
+			SearchNode: function (nodeIndex) { //搜索结点
+			  return this.root.SearchNode(nodeIndex);
+			},
+			AddNode: function (nodeIndex, direction, node) { //增加结点
+			  searchResult = this.root.SearchNode(nodeIndex);
+			  if (searchResult == null) {
+				return false;
+			  }
+			  if (direction == 0) {
+				searchResult.lChild = node;
+				searchResult.lChild.parentNode = searchResult;
+			  } else if (direction == 1) {
+				searchResult.rChild = node;
+				searchResult.rChild.parentNode = searchResult;
+			  }
+			},
+			DeleteNode: function (nodeIndex) { //删除结点
+			  if (this.SearchNode(nodeIndex) != null) {
+				this.SearchNode(nodeIndex).DeleteNode();
+			  }
+			},
+			PreOrderTraversal: function () { //前序遍历
+			  printTxt = "";
+			  this.root.PreOrderTraversal();
+			  console.log(printTxt);
+			},
+			InOrderTraversal: function () { //中序遍历
+			  printTxt = "";
+			  this.root.InOrderTraversal();
+			  console.log(printTxt);
+			},
+			PostOrderTraversal: function () { //后序遍历
+			  printTxt = "";
+			  this.root.PostOrderTraversal();
+			  console.log(printTxt);
+			}
+		};
+
+		var LinkTree = new Tree(0, 2); //产生一个以2为根结点的二叉树
+		//创建一棵二叉树
+		LinkTree.AddNode(0, 0, new Node(1, 1));
+		LinkTree.AddNode(0, 1, new Node(2, 2));
+		LinkTree.AddNode(2, 0, new Node(3, 3));
+		LinkTree.AddNode(2, 1, new Node(4, 4));
+		LinkTree.AddNode(4, 0, new Node(5, 5));
+		LinkTree.AddNode(4, 1, new Node(6, 6));
+		LinkTree.AddNode(6, 0, new Node(7, 7));
+		LinkTree.AddNode(6, 1, new Node(8, 8));
+		LinkTree.AddNode(8, 0, new Node(9, 9));
+
+		console.log("初始化的二叉树：");
+		LinkTree.PreOrderTraversal(); //遍历树
+		console.log("搜索根结点：");
+		console.log(LinkTree.SearchNode(0).data); //搜索第一个结点
+		LinkTree.AddNode(9, 0, new Node(10, 0));
+		console.log("增加0结点后的二叉树：");
+		LinkTree.PreOrderTraversal(); //遍历树
+		LinkTree.DeleteNode(1); //删除根结点的下一个结点
+		console.log("删除根结点下一个结点后的二叉树：");
+		LinkTree.PreOrderTraversal(); //遍历树
+		
+	</script>
+</body>
+</html>

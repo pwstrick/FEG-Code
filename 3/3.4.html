@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>3.4</title>
+</head>
+<body>
+	<script>
+		function quickSort(arr) {
+			var length = arr.length;
+			if(length <= 1) {
+				return arr;
+			}
+			var base_num = arr[0],
+				left_array = [],//保存小于标尺的记录
+				right_array = [];//保存大于标尺的记录
+			for(var i=1; i<length; i++) {
+				if(base_num > arr[i]) {
+					//放入左边数组
+					left_array.push(arr[i]);
+				} else {
+					//放入右边数组
+					right_array.push(arr[i]);
+				}
+			}
+			left_array = quickSort(left_array);
+			right_array = quickSort(right_array);
+			return left_array.concat([base_num], right_array);
+		}
+
+		var arr = [20, 0, 39, 66, 40, 78, 46, 36, 60, 100],
+				txt = "";
+		for (var k in arr) {
+			txt += arr[k] + " ";
+		}
+		console.log("排序前：", txt);
+		arr = quickSort(arr);
+		txt = "";
+		for (k in arr) {
+			txt += arr[k] + " ";
+		}
+		console.log("排序后：", txt);
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.8</title>
+</head>
+<body>
+	<script>
+		function maxNum(a, b, c) {
+		  var max = a < b ? b : a;
+		  max = max < c ? c : max;
+		  return max;
+		}
+		function getMinDistance1(a, b, c) {
+		  var aLen = a.length,
+			bLen = b.length,
+			cLen = c.length,
+			minDist = maxNum(Math.abs(a[0] - b[0]),
+			  Math.abs(a[0] - c[0]),
+			  Math.abs(b[0] - c[0])),
+			dist = 0;
+		  for (var i = 0; i < aLen; i++) {
+			for (var j = 0; j < bLen; j++) {
+			  for (var k = 0; k < cLen; k++) {
+				//计算距离
+				dist = maxNum(Math.abs(a[i] - b[j]),
+				  Math.abs(a[i] - c[k]),
+				  Math.abs(b[j] - c[k]));
+				//找出最小距离
+				if (minDist > dist) {
+				  minDist = dist;
+				}
+			  }
+			}
+		  }
+		  return minDist;
+		}
+
+		var a = [3, 4, 5, 7, 15],
+		  b = [10, 12, 14, 16, 17],
+		  c = [20, 21, 23, 24, 37, 30];
+		console.log("最小距离为：", getMinDistance1(a, b, c));
+		
+		
+		function maxNum(a, b, c) {
+		  var max = a < b ? b : a;
+		  max = max < c ? c : max;
+		  return max;
+		}
+		function minNum(a, b, c) {
+		  var min = a < b ? a : b;
+		  min = min < c ? min : c;
+		  return min;
+		}
+		function getMinDistance2(a, b, c) {
+		  var aLen = a.length,
+			bLen = b.length,
+			cLen = c.length,
+			curDist = 0,
+			min = 0,
+			minDist = Math.max.apply(null, a),
+			i = 0, //数组a的下标
+			j = 0, //数组b的下标
+			k = 0; //数组c的下标
+		  while (1) {
+			curDist = maxNum(Math.abs(a[i] - b[j]),
+			  Math.abs(a[i] - c[k]),
+			  Math.abs(b[j] - c[k]));
+			if (curDist < minDist)
+			  minDist = curDist;
+			//找出当前遍历到三个数组中的最小值
+			min = minNum(a[i], b[j], c[k]);
+			if (min == a[i]) {
+			  if (++i >= aLen)
+				break;
+			} else if (min == b[j]) {
+			  if (++j >= bLen)
+				break;
+			} else {
+			  if (++k >= cLen)
+				break;
+			}
+		  }
+		  return minDist;
+		}
+		var a = [3, 4, 5, 7, 15],
+		  b = [10, 12, 14, 16, 17],
+		  c = [20, 21, 23, 24, 37, 30];
+		console.log("最小距离为：", getMinDistance2(a, b, c));
+	</script>
+</body>
+</html>

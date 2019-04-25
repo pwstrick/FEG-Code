@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>5.3引申</title>
+</head>
+<body>
+	<script>
+		function LNode() {
+		  this.mElem = null;
+		  this.mNext = null;
+		}
+
+		function StackLinked() {
+		  this.mNext = null; //头“指针”，指向栈顶元素
+		  this.mLength = 0; //栈内元素个数
+		}
+		StackLinked.prototype = {
+
+			/** 
+			 * 判断栈是否空栈
+			 * @return boolean 如果为空栈返回true,否则返回false
+			 */
+			getIsEmpty: function () {
+			  return this.mNext == null;
+			},
+
+			/** 
+			 * 将所有元素出栈
+			 * @return array 返回所有栈内元素
+			 */
+			getAllPopStack: function () {
+			  var e = [];
+			  if (!this.getIsEmpty()) {
+				while (this.mNext != null) {
+				  e.push(this.mNext.mElem);
+				  this.mNext = this.mNext.mNext;
+				}
+			  }
+			  this.mLength = 0;
+			  return e;
+			},
+
+			/** 
+			 * 返回栈内元素个数
+			 * @return int
+			 */
+			getLength: function () {
+			  return this.mLength;
+			},
+
+			/** 
+			 * 元素进栈
+			 * @param mixed e 进栈元素值
+			 * @return void
+			 **/
+			push: function (e) {
+			  var newLn = new LNode();
+			  newLn.mElem = e;
+			  newLn.mNext = this.mNext;
+			  this.mNext = newLn;
+			  this.mLength++;
+			},
+
+			/** 
+			 * 元素出栈
+			 * @return boolean 出栈成功返回true,否则返回false
+			 **/
+			pop: function () {
+			  if (this.getIsEmpty()) {
+				return false;
+			  }
+			  var p = this.mNext,
+				e = p.mElem;
+			  this.mNext = p.mNext;
+			  this.mLength--;
+			  return true;
+			},
+
+			/** 
+			 * 仅返回栈内所有元素
+			 * @return array 栈内所有元素组成的一个数组
+			 */
+			getAllElem: function () {
+			  var sldata = [],
+				p;
+			  if (!this.getIsEmpty()) {
+				p = this.mNext;
+				while (p != null) {
+				  sldata.push(p.mElem);
+				  p = p.mNext;
+				}
+			  }
+			  return sldata;
+			},
+
+			/** 
+			 * 返回栈顶元素
+			 * @return element 返回栈顶元素
+			 */
+			top: function () {
+			  if (this.getIsEmpty()) {
+				return false;
+			  }
+			  var list = this.getAllElem();
+			  return list[0];
+			},
+
+			/** 
+			 * 把栈低元素移动到栈顶
+			 */
+			move_bottom_to_top: function () {
+			  if (this.getIsEmpty())
+				return;
+			  var top1 = this.top(),
+				top2;
+			  this.pop(); //弹出栈顶元素
+			  if (!this.getIsEmpty()) {
+				//递归处理不包含栈顶元素的子栈
+				this.move_bottom_to_top();
+				top2 = this.top();
+				if (top1 > top2) {
+				  this.pop();
+				  this.push(top1);
+				  this.push(top2);
+				  return;
+				}
+			  }
+			  this.push(top1);
+			},
+
+			/** 
+			 * 给栈排序
+			 */
+			sort_stack: function () {
+			  if (this.getIsEmpty())
+				return;
+			  //把栈底元素移动到栈顶
+			  this.move_bottom_to_top();
+			  var top = this.top();
+			  this.pop();
+			  //递归处理子栈
+			  this.sort_stack();
+			  this.push(top);
+			}
+		};
+
+		var stack = new StackLinked();
+		stack.push('1');
+		stack.push('3');
+		stack.push('2');
+		stack.sort_stack();
+		console.log("排序后的出栈顺序为：");
+		var txt = "";
+		while (!stack.getIsEmpty()) {
+		  txt += stack.top() + " ";
+		  stack.pop();
+		}
+		console.log(txt);
+	</script>
+</body>
+</html>

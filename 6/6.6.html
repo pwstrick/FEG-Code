@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>6.6</title>
+</head>
+<body>
+	<script>
+		function BinaryTree(key, left, right) {
+		  this.key = key || null;
+		  this.left = left;
+		  this.right = right;
+		}
+		BinaryTree.prototype = {
+			isEmpty: function () {	//检测结点是否为空
+			  return this.key === null;
+			},
+			getKey: function () { //读取结点值
+			  if (this.isEmpty()) {
+				return false;
+			  }
+			  return this.key;
+			},
+			attachKey: function (obj) { //给结点指定值
+			  if (!this.isEmpty())
+				return false;
+			  this.key = obj;
+			  this.left = new BinaryTree();
+			  this.right = new BinaryTree();
+			},
+			getLeft: function () { //读取左子树
+			  if (this.isEmpty())
+				return false;
+			  return this.left;
+			},
+			getRight: function () { //读取右子树
+			  if (this.isEmpty())
+				return false;
+			  return this.right;
+			},
+			insert: function (obj) { //给二叉排序树插入指定值
+			  if (this.isEmpty()) {
+				this.attachKey(obj);
+				return;
+			  }
+			  var diff = this.compare(obj);
+			  if (diff < 0)
+				this.getLeft().insert(obj);
+			  else if (diff > 0)
+				this.getRight().insert(obj);
+			},
+			compare: function (obj) { //当前结点值与传入的值做比较
+			  return obj - this.getKey();
+			}
+		};
+		var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			root = new BinaryTree();
+		//对数组的两部分用递归的方法分别构建左右子树
+		function setTree(arr, root) {
+		  var len = arr.length;
+		  if (len < 2) {
+			root.insert(arr[0]);
+			return;
+		  }
+		  var middle = Math.floor(len / 2),
+			left = arr.slice(0, middle), //数组的左边部分
+			right = arr.slice(middle + 1); //数组的右边部分
+		  root.insert(arr[middle]); //添加中间结点
+		  setTree(left, root.left); //左子树
+		  if (len > 2)
+			setTree(right, root.right); //右子数
+		}
+		setTree(arr, root);
+		//console.log(root);
+		
+		/**
+		 * 前序遍历（递归实现）
+		 */
+		function preOrder(root) {
+		  if (!root || root.key == null) {
+			return;
+		  }
+		  console.log(root.key);
+		  preOrder(root.left);
+		  preOrder(root.right);
+		}
+		
+		/**
+		 * 中序遍历（递归实现）
+		 */
+		function midOrder(root) {
+		  if (!root || root.key == null) {
+			return;
+		  }
+		  midOrder(root.left);
+		  console.log(root.key);
+		  midOrder(root.right);
+		}
+		
+		/**
+		 * 后序遍历（递归实现）
+		 */
+		function backOrder(root) {
+		  if (!root || root.key == null) {
+			return;
+		  }
+		  backOrder(root.left);
+		  backOrder(root.right);
+		  console.log(root.key);
+		}
+		
+		/**
+		 * 层序遍历（递归实现）
+		 * 由于是逐层遍历，因此还要传递当前的层数
+		 */
+		function levelOrder(root, level) {
+		  if (!root || root.key == null || level < 1) {
+			return;
+		  }
+		  if (level == 1) {
+			console.log(root.key);
+			return;
+		  }
+		  if (root.left) {
+			levelOrder(root.left, level - 1);
+		  }
+		  if (root.right) {
+			levelOrder(root.right, level - 1);
+		  }
+		}
+
+		/**
+		 * 获取树的深度（即层数）
+		 */
+		function getDepthNode(root) {
+		  if (!root || root.key == null) {
+			return 0;
+		  }
+		  var left = getDepthNode(root.left),
+			right = getDepthNode(root.right),
+			depth = left > right ? (left + 1) : (right + 1);
+		  return depth;
+		}
+
+		console.log("前序遍历：");
+		preOrder(root);
+		console.log("中序遍历：");
+		midOrder(root);
+		console.log("后序遍历：");
+		backOrder(root);
+		//执行层序遍历
+		var level = getDepthNode(root);
+		console.log("树的深度：", level);
+		console.log("层序遍历：");
+		for (var i = 1; i <= level; i++) {
+		  levelOrder(root, i);
+		}
+	</script>
+</body>
+</html>

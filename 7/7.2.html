@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.2</title>
+</head>
+<body>
+	<script>
+		function getMaxMin1(arr) {
+		  var len = arr.length;
+		  if (!arr || len < 1) {
+			return;
+		  }
+		  var max = arr[0],
+			min = arr[0];
+		  for (var i = 1; i < len; i++) {
+			if (arr[i] > max) {
+			  max = arr[i];
+			} else if (arr[i] < min) {
+			  min = arr[i];
+			}
+		  }
+		  console.log("最大值：", max);
+		  console.log("最小值：", min);
+		}
+
+		var arr = [8, 6, 5, 2, 3, 9, 4, 1, 7];
+		getMaxMin1(arr);
+		
+		function getMaxMin2(arr) {
+			var len = arr.length;
+			if (!arr || len < 1) {
+				return;
+			}
+			var max, min, tmp;
+			//两两分组，把较小的数放到左半部分，较大的放到右半部分
+			for (var i = 0; i < len; i++) {
+				if (arr[i + 1] !== undefined && arr[i] > arr[i + 1]) {
+					tmp = arr[i];
+					arr[i] = arr[i + 1];
+					arr[i + 1] = tmp;
+				}
+			}
+			//在各个分组的左半部分找最小值
+			min = arr[0];
+			for (i = 2; i < len; i+=2) {
+				if (arr[i] < min) {
+					min = arr[i];
+				}
+			}
+			//在各个分组的右半部分找最大值
+			max = arr[1];
+			for (i = 3; i < len; i+=2) {
+				if (arr[i] > max) {
+					max = arr[i];
+				}
+			}
+			//如果数组中元素个数是奇数个，最后一个元素被分为一组，需要特殊处理
+			if (len % 2 == 1) {
+				if (max < arr[len - 1])
+					max = arr[len - 1];
+				if (min > arr[len - 1])
+					min = arr[len - 1];
+			}
+		}
+		var arr = [8, 6, 5, 2, 3, 9, 4, 1, 7, 0];
+		getMaxMin2(arr);
+
+		/** 
+		 * 找出数组的最大值或最小值
+		 * @param arr 要遍历的数组
+		 * @param start 起始位置
+		 * @param end 结束位置
+		 * @param type 1表示查找最大值，2表示查找最小值
+		 * @return 最大值或最小值
+		 **/
+		function getMaxMin3(arr, start, end, type) {
+		  if (start == end) { //左半部份与右半部份之间只有一个元素
+			return arr[start];
+		  }
+		  var mid = Math.floor((start + end) / 2), //算出中间位置
+			left = getMaxMin3(arr, start, mid, type), //在左半部份中查找
+			right = getMaxMin3(arr, mid + 1, end, type); //在右半部份中查找
+		  if (type == 1) {
+			return left > right ? left : right;
+		  }
+		  return left > right ? right : left;
+		}
+		var arr = [8, 6, 5, 2, 3, 9, 4, 1, 7],
+		  len = arr.length,
+		  start = 0,
+		  end = len - 1;
+		console.log("最大值：", getMaxMin3(arr, start, end, 1));
+		console.log("最小值：", getMaxMin3(arr, start, end, 2));
+	</script>
+</body>
+</html>

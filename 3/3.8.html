@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>3.8</title>
+</head>
+<body>
+	<script>
+		function countingSort(arr) {
+		  var count = arr.length,
+			countArr = [];
+		  if (count <= 1)
+			return arr;
+		  var min = Math.min.apply(null, arr), //取出最小值
+			max = Math.max.apply(null, arr); //取出最大值
+		  for (var i = min; i <= max; i++) {
+			countArr[i] = 0;
+		  }
+		  arr.forEach(function (value, key) {
+			countArr[value] = countArr[value] + 1;
+		  });
+
+		  var list = [];
+		  //value是每个元素出现的次数
+		  countArr.forEach(function (value, key) {
+			for (var i = 0; i < value; i++) {
+			  list.push(key);
+			}
+		  });
+		  return list;
+		}
+
+		var arr = [20, 0, 39, 66, 40, 78, 46, 36, 60, 100],
+		  txt = "";
+		for (var k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序前：", txt);
+		arr = countingSort(arr);
+		txt = "";
+		for (k in arr) {
+		  txt += arr[k] + " ";
+		}
+		console.log("排序后：", txt);
+	</script>
+</body>
+</html>

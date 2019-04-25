@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.3</title>
+</head>
+<body>
+	<script>
+		/*
+		 ** 函数功能：计算两个自然数的除法
+		 ** 输入参数：m为被除数，n为除数
+		 ** 返回值：res为商，remain为余数
+		 */
+		function devide1(m, n) {
+		  var res = 0,
+			remain = m;
+		  //被除数减除数，直到相减结果小于除数为止
+		  while (m > n) {
+			m = m - n;
+			res += 1;
+		  }
+		  remain = m;
+		  return {
+			res: res,
+			remain: remain
+		  };
+		}
+
+		var m = 14,
+		  n = 4,
+		  result = devide1(m, n);
+		console.log(m, "除以", n,
+		  "商为", result.res, "，余数为", result.remain);
+
+		function devide2(m, n) {
+		  var result = 0,
+			multi,
+			remain;
+		  while (m >= n) {
+			multi = 1;
+			//multi*n > m/2（即2*multi*n > m）时结束循环
+			while (multi * n <= (m >> 1)) {
+			  multi <<= 1;
+			}
+			result += multi;
+			//相减的结果进入下次循环
+			m -= multi * n;
+		  }
+		  remain = m;
+		  return {
+			res: result,
+			remain: remain
+		  };
+		}
+		
+		var m = 14,
+		  n = 4,
+		  result = devide2(m, n);
+		console.log(m, "除以", n,
+		  "商为", result.res, "，余数为", result.remain);
+		
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.11</title>
+</head>
+<body>
+	<script>
+		//获取n的平方根，e为精度要求
+		function squareRoot(n, e) {
+		  var new_one = n,
+			last_one = 1; //第一个近似值为1
+		  while (new_one - last_one > e) { //直到满足精度要求为止
+			new_one = (new_one + last_one) / 2; //求下一个近似值
+			last_one = n / new_one;
+		  }
+		  var precision = e.toString().split("."); //计算小数的位数
+		  if (precision.length > 1)
+			return new_one.toFixed(precision[1].length);
+		  return new_one.toFixed(0);
+		}
+
+		var n = 50,
+		  e = 0.000001;
+		console.log(n, "的平方根为", squareRoot(n, e));
+		n = 4;
+		console.log(n, "的平方根为", squareRoot(n, e));
+
+	</script>
+</body>
+</html>

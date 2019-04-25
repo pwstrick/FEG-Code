@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.6引申</title>
+</head>
+<body>
+	<script>
+		function findTop3(arr) {
+		  var len = arr.length;
+		  if (!arr || len < 3) {
+			return;
+		  }
+		  var r1 = Number.MIN_VALUE,
+			r2 = Number.MIN_VALUE,
+			r3 = Number.MIN_VALUE;
+		  for (var i = 0; i < len; ++i) {
+			if (arr[i] > r1) {
+			  r3 = r2;
+			  r2 = r1;
+			  r1 = arr[i];
+			} else if (arr[i] > r2 && arr[i] != r1) {
+			  r3 = r2;
+			  r2 = arr[i];
+			} else if (arr[i] > r3 && arr[i] != r2) {
+			  r3 = arr[i];
+			}
+		  }
+		  console.log("前三名分别为：", r1, r2, r3);
+		}
+
+		var arr = [4, 7, 1, 2, 3, 5, 3, 6, 3, 2];
+		findTop3(arr);
+	</script>
+</body>
+</html>

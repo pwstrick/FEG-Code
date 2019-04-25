@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.7</title>
+</head>
+<body>
+	<script>
+		function maxNum1(a, b) {
+		  return Math.abs(a - b) == (a - b) ? a : b;
+		}
+		console.log(maxNum1(4, 6));
+		
+		function maxNum2(a, b) {
+		  return (a - b) & (1 << 31) ? b : a;
+		}
+		console.log(maxNum2(4, 6));
+		//或
+		function maxNum3(a, b) {
+		  return (a - b) & 0x80000000 ? b : a;
+		}
+		console.log(maxNum3(4, 6));
+
+	</script>
+</body>
+</html>

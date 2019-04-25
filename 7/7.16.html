@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.16</title>
+</head>
+<body>
+	<script>
+		function maxCover(a, L) {
+		  var n = a.length,
+			count = 2,
+			maxCount = 1, //覆盖的最大点数
+			start, //覆盖坐标的起始位置
+			i = 0,
+			j = 1;
+		  while (i < n && j < n) {
+			while ((j < n) && (a[j] - a[i] <= L)) {
+			  j++;
+			  count++;
+			}
+			j--;
+			count--;
+			if (count > maxCount) {
+			  start = i;
+			  maxCount = count;
+			}
+			i++;
+			j++;
+		  }
+		  var cover = a.slice(start, start + maxCount);
+		  console.log("覆盖的坐标点：", cover.join(" "))
+		  return maxCount;
+		}
+
+		var a = [1, 3, 7, 8, 10, 11, 12, 13, 15, 16, 17, 19, 25];
+		console.log("最长覆盖点数：", maxCover(a, 8));
+	</script>
+</body>
+</html>

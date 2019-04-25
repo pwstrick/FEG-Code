@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>5.5</title>
+</head>
+<body>
+	<script>
+		function Node() {
+		  this.data = null;
+		  this.min = null;
+		}
+
+		function Min_Stack(a) {
+		  var _this = this;
+		  this.data = [];
+		  this.top = 0;
+		  a.forEach(function (value, key) {
+			_this.push(value);
+		  });
+		}
+		Min_Stack.prototype = {
+			push: function (i) {
+			  var node = new Node();
+			  node.data = i;
+			  /** 
+			   * 此处设置每个节点的min值，设置方法为若栈为空，
+			   * 当前元素data则为当前节点的min。
+			   * 若栈非空，则当前元素data与前一个节点的min值比较，
+			   * 取其小者作为当前节点的min。
+			   **/
+			  if (this.top == 0) {
+				min = node.data;
+			  } else {
+				min = this.data[this.top - 1].min < node.data ? this.data[this.top - 1].min : node.data;
+			  }
+			  node.min = min;
+			  this.data.push(node);
+			  this.top++;
+			  return node;
+			},
+			pop: function () {
+			  var r = this.data[--this.top];
+			  this.data.splice(this.top, 1);
+			  return r;
+			},
+			get_min: function () {
+			  return this.data[this.top - 1].min;
+			},
+			getAllElem: function () {
+			  return this.data.map(function(value) {
+				return value.data;
+			  }).join(" ");
+			}
+		};
+
+		var a = [5],
+		  min_stack = new Min_Stack(a);
+		console.log("当前的栈为：", min_stack.getAllElem());
+		console.log("栈中最小值为：", min_stack.get_min());
+		min_stack.push(6);
+		console.log("当前的栈为：", min_stack.getAllElem());
+		console.log("栈中最小值为：", min_stack.get_min());
+		min_stack.push(2);
+		console.log("当前的栈为：", min_stack.getAllElem());
+		console.log("栈中最小值为：", min_stack.get_min());
+		min_stack.pop();
+		console.log("当前的栈为：", min_stack.getAllElem());
+		console.log("栈中最小值为：", min_stack.get_min());
+	</script>
+</body>
+</html>

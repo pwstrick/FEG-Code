@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.14</title>
+</head>
+<body>
+	<script>
+		function rightShift1(arr, k) {
+		  var len = arr.length;
+		  if (!arr || len < 1) {
+			return;
+		  }
+		  var tmp;
+		  while (k--) {
+			tmp = arr[len - 1];
+			for (var i = len - 1; i > 0; i--)
+			  arr[i] = arr[i - 1];
+			arr[0] = tmp;
+		  }
+		}
+
+		var arr = [1, 2, 3, 4, 5, 6, 7, 8],
+		  k = 4;
+		rightShift1(arr, k);
+		console.log(arr.join(" "));
+		
+		function rightShift2(arr, k) {
+		  var len = arr.length;
+		  if (!arr || len < 1) {
+			return;
+		  }
+		  var tmp;
+		  k %= len;
+		  while (k--) {
+			tmp = arr[len - 1];
+			for (var i = len - 1; i > 0; i--)
+			  arr[i] = arr[i - 1];
+			arr[0] = tmp;
+		  }
+		}
+		
+		var arr = [1, 2, 3, 4, 5, 6, 7, 8],
+		  k = 4;
+		rightShift2(arr, k);
+		console.log(arr.join(" "));
+		
+		function reverse(arr, start, end) {
+		  var temp;
+		  while (start < end) {
+			temp = arr[start];
+			arr[start] = arr[end];
+			arr[end] = temp;
+			start++;
+			end--;
+		  }
+		}
+		function rightShift3(arr, k) {
+		  var len = arr.length;
+		  if (!arr || len < 1) {
+			return;
+		  }
+		  k %= len;
+		  reverse(arr, 0, len - k - 1);
+		  reverse(arr, len - k, len - 1);
+		  reverse(arr, 0, len - 1);
+		}
+
+		var arr = [1, 2, 3, 4, 5, 6, 7, 8],
+		  k = 4;
+		rightShift3(arr, k);
+		console.log(arr.join(" "));
+	</script>
+</body>
+</html>

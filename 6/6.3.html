@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>6.3</title>
+</head>
+<body>
+	<script>
+		var printTxt = ""; //要在控制台输出的文本
+		/**
+		 * 二叉树的定义
+		 * 用指定的值构造二叉树，并定义左右子树
+		 * @param mixed key 结点值
+		 * @param mixed left 左子树结点
+		 * @param mixed right 右子树结点
+		 */
+		function BinaryTree(key, left, right) {
+		  this.key = key || null;
+		  this.left = left;
+		  this.right = right;
+		}
+		BinaryTree.prototype = {
+			/**
+			 * 检测当前结点是否是叶结点
+			 * @return boolean 当结点非空并且有两个空的子树时为true，否则为false
+			 */
+			isLeaf: function () {
+			  return !this.isEmpty() &&
+				this.left.isEmpty() &&
+				this.right.isEmpty();
+			},
+
+			/**
+			 * 检测结点是否为空
+			 * @return boolean 如果结点为空返回true，否则为false
+			 */
+			isEmpty: function () {
+			  return this.key === null;
+			},
+			getKey: function () { //读取结点值
+			  if (this.isEmpty()) {
+				return false;
+			  }
+			  return this.key;
+			},
+			attachKey: function (obj) { //给结点指定值
+			  if (!this.isEmpty())
+				return false;
+			  this.key = obj;
+			  this.left = new BinaryTree();
+			  this.right = new BinaryTree();
+			},
+			detachKey: function () { //删除结点值，使得结点为空
+			  if (!this.isLeaf())
+				return false;
+			  this.key = null;
+			  this.left = null;
+			  this.right = null;
+			  return this.key;
+			},
+			getLeft: function () { //读取左子树
+			  if (this.isEmpty())
+				return false;
+			  return this.left;
+			},
+			getRight: function () { //读取右子树
+			  if (this.isEmpty())
+				return false;
+			  return this.right;
+			},
+			preorderTraversal: function () { //前序遍历
+			  if (this.isEmpty()) {
+				return;
+			  }
+			  printTxt += ' ' + this.getKey();
+			  this.getLeft().preorderTraversal();
+			  this.getRight().preorderTraversal();
+			},
+			inorderTraversal: function () { //中序遍历
+			  if (this.isEmpty()) {
+				return;
+			  }
+			  this.getLeft().inorderTraversal();
+			  printTxt += ' ' + this.getKey();
+			  this.getRight().inorderTraversal();
+			},
+			postorderTraversal: function () { //后序遍历
+			  if (this.isEmpty()) {
+				return;
+			  }
+			  this.getLeft().postorderTraversal();
+			  this.getRight().postorderTraversal();
+			  printTxt += ' ' + this.getKey();
+			},
+			insert: function (obj) { //给二叉排序树插入指定值
+			  if (this.isEmpty()) {
+				this.attachKey(obj);
+				return;
+			  }
+			  var diff = this.compare(obj);
+			  if (diff < 0)
+				this.getLeft().insert(obj);
+			  else if (diff > 0)
+				this.getRight().insert(obj);
+			},
+			compare: function (obj) { //当前结点值与传入的值做比较
+			  return obj - this.getKey();
+			}
+		};
+
+		var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+		  txt = arr.reduce(function (accumulator, current, index, array) {
+			return accumulator + " " + current;
+		  });
+		console.log("数组：", txt);
+
+		var root = new BinaryTree();
+		/**
+		 * 对数组的两部分用递归的方法分别构建左右子树
+		 */
+		function setTree(arr, root) {
+		  var len = arr.length;
+		  if (len < 2) {
+			root.insert(arr[0]);
+			return;
+		  }
+		  var middle = Math.floor(len / 2),
+			left = arr.slice(0, middle), //数组的左边部分
+			right = arr.slice(middle + 1); //数组的右边部分
+		  root.insert(arr[middle]); //添加中间结点
+		  setTree(left, root.left); //左子树
+		  if (len > 2)
+			setTree(right, root.right); //右子数
+		}
+		setTree(arr, root);
+		root.inorderTraversal(); //中序遍历
+		console.log("转换成树的中序遍历为：", printTxt);
+	</script>
+</body>
+</html>

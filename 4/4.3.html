@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.3</title>
+</head>
+<body>
+	<script>
+		//链表结点   
+		function node(id, name) {
+			this.id = id; //结点id
+			this.name = name; //结点名称
+			this.next = null; //下一结点
+		}
+		//单链表
+		function linkList(id, name) {
+			this.header = new node(id, name); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据
+				var current = this.header;
+				while (current.next != null) {
+					if (current.next.id > node.id) {
+						break;
+					}
+					current = current.next;
+				}
+				node.next = current.next;
+				current.next = node;
+			},
+			clear: function () { //清空链表
+				this.header = null;
+			},
+			getLinkList: function () { //获取链表
+				var current = this.header;
+				if (current.next == null) {
+					console.log("链表为空");
+					return;
+				}
+				var txt = "";
+				while (current.next != null) {
+					txt += current.next.name + " ";
+					if (current.next.next == null) {
+						break;
+					}
+					current = current.next;
+				}
+				console.log(txt);
+			}
+		};
+		/*
+		 ** 函数功能：对两个带头结点的单链表所代表的的数相加
+		 ** 输入参数：h1:第一个链表头结点；h2:第二个链表头结点
+		 ** 返回值：相加后链表的头结点
+		 */
+		function add(h1, h2) {
+			h1 = h1.header;
+			h2 = h2.header;
+			if (h1 == null || h1.next == null)
+				return h2;
+			if (h2 == null || h2.next == null)
+				return h1;
+			var c = 0, //用来记录进位
+					sum = 0, //用来记录两个结点相加的值
+					p1 = h1.next, //用来遍历h1
+					p2 = h2.next, //用来遍历h2
+					tmp = null, //用来指向新创建的存储相加和的结点
+					resultHead = new linkList(), //相加后链表头结点
+					p = resultHead; //用来指向链表resultHead最后一个结点
+			while (p1 && p2) {
+				tmp = new linkList();
+				sum = p1.name + p2.name + c;
+				tmp.header.name = sum % 10; //两结点相加和
+				c = Math.floor(sum / 10); //进位
+				p.header.next = tmp;
+				p = tmp;
+				p1 = p1.next;
+				p2 = p2.next;
+			}
+			//链表h2比h1长，接下来只需要考虑h2剩余结点的值
+			if (p1 == null) {
+				while (p2) {
+					tmp = new linkList();
+					sum = p2.header.name + c;
+					tmp.header.name = sum % 10;
+					c = Math.floor(sum / 10);
+					p.header.next = tmp;
+					p = tmp;
+					p2 = p2.next;
+				}
+			}
+			//链表h1比h2长，接下来只需要考虑h1剩余结点的值
+			if (p2 == null) {
+				while (p1) {
+					tmp = new linkList();
+					sum = p1.name + c;
+					tmp.header.name = sum % 10;
+					c = Math.floor(sum / 10);
+					p.header.next = tmp;
+					p = tmp;
+					p1 = p1.next;
+				}
+			}
+			//如果计算完成后还有进位，则增加新的结点
+			if (c == 1) {
+				tmp = new linkList();
+				tmp.header.name = 1;
+				p.header.next = tmp;
+			}
+			return resultHead;
+		}
+
+		var head1 = new linkList(),
+				head2 = new linkList();
+		for (var i = 1; i < 7; i++) {
+			head1.addLink(new node(i, i + 2));
+		}
+		var num = 0;
+		for (i = 9; i > 4; i--) {
+			head2.addLink(new node(num, i));
+			num++;
+		}
+		console.log("Head1： ");
+		head1.getLinkList();
+		console.log("Head2： ");
+		head2.getLinkList();
+		console.log("相加后： ");
+		var addResult = add(head1, head2),
+				txt = "";
+		while (addResult != null) {
+			if (addResult.header.name)
+				txt += addResult.header.name + " ";
+			addResult = addResult.header.next;
+		}
+		console.log(txt);
+		//释放链表所占的空间
+		head1.clear();
+		head2.clear();
+	</script>
+</body>
+</html>

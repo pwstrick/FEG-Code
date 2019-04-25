@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>8.1</title>
+</head>
+<body>
+	<script>
+		function isPower1(n) {
+		  if (n <= 0) {
+			return false;
+		  }
+		  for (var i = 1; i < n; i++) {
+			m = i * i;
+			if (m == n)
+			  return true;
+			else if (m > n)
+			  return false;
+		  }
+		  return false;
+		}
+
+		var n1 = 15,
+		  n2 = 16;
+		if (isPower1(n1))
+		  console.log(n1, "是某个自然数的平方");
+		else
+		  console.log(n1, "不是某个自然数的平方");
+
+		if (isPower1(n2))
+		  console.log(n2, "是某个自然数的平方");
+		else
+		  console.log(n2, "不是某个自然数的平方");
+		
+		function isPower2(n) {
+		  if (n <= 0) {
+			return false;
+		  }
+		  var low = 1,
+			high = n,
+			mid,
+			power;
+		  while (low < high) {
+			mid = Math.floor((low + high) / 2);
+			power = mid * mid;
+			//在1~mid-1之间查找
+			if (power > n)
+			  high = mid - 1;
+			//在mid+1~n之间查找
+			else if (power < n)
+			  low = mid + 1;
+			else
+			  return true;
+		  }
+		  return false;
+		}
+		console.log(n1, isPower2(n1));
+		console.log(n2, isPower2(n2));
+		console.log(1, isPower2(1));
+		console.log(4, isPower2(4));
+		
+		function isPower3(n) {
+		  if (n <= 0) {
+			return false;
+		  }
+		  var minus = 1;
+		  while (n > 0) {
+			n = n - minus;
+			if (n == 0) //n是某个数的平方
+			  return true;
+			else if (n < 0) //n不是某个数的平方
+			  return false;
+			else //每次减数都加2
+			  minus += 2;
+		  }
+		  return false;
+		}
+		console.log(isPower3(n1));
+		console.log(isPower3(n2));
+
+		
+	</script>
+</body>
+</html>

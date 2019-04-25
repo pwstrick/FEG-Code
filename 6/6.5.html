@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>6.5</title>
+</head>
+<body>
+	<script>
+		function Node(key, left, right) {
+		  this.key = key;
+		  this.left = left;
+		  this.right = right;
+		}
+
+		function BinaryTree() {
+		  this.root = null;
+		}
+		BinaryTree.prototype = {
+		  insertNode: function (node, newNode) { //插入结点
+			  if (node.key < newNode.key) {
+				//如果父结点小于子结点，插到右边
+				node.right ? this.insertNode(node.right, newNode) : (node.right = newNode);
+			  } else if (node.key > newNode.key) {
+				//如果父结点大于子结点，插到左边
+				node.left ? this.insertNode(node.left, newNode) : (node.left = newNode);
+			  }
+			},
+			insert: function (key) {
+			  var newNode = new Node(key);
+			  if (this.root) {
+				this.insertNode(this.root, newNode);
+			  } else {
+				this.root = newNode;
+			  }
+			},
+			findMin: function () { //寻找最小值
+			  //不断的找它的左子树，直到这个左子树的结点为叶子结点
+			  if (this.root) {
+				this.findMinNode(this.root);
+			  }
+			},
+			findMinNode: function (node) {
+			  if (node.left) {
+				this.findMinNode(node.left);
+			  } else {
+				console.log('这个二叉树的最小值为：', node.key);
+			  }
+			},
+			findMax: function () { //寻找最大值
+			  if (this.root) {
+				this.findMaxNode(this.root);
+			  }
+			},
+			findMaxNode: function (node) {
+			  if (node.right) {
+				this.findMaxNode(node.right);
+			  } else {
+				console.log('这个二叉树的最大值为：', node.key);
+			  }
+			}
+		};
+
+		var tree = new BinaryTree(),
+		  nodes = [8, 3, 10, 1, 6, 14, 4, 7, 13],
+		  txt = "";
+		nodes.forEach(function (value, key) {
+		  tree.insert(value);
+		  txt += value + " ";
+		});
+		console.log("二叉树的结构：", txt);
+		tree.findMin();
+		tree.findMax();
+	</script>
+</body>
+</html>

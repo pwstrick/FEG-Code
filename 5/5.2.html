@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>5.2</title>
+</head>
+<body>
+	<script>
+		function queue() {
+		  this.queueList = [];
+		  this.size = 0;
+		}
+		queue.prototype = {
+			enQueue: function (data) { //入队操作
+			  this.queueList[this.size++] = data;
+			  return this;
+			},
+			outQueue: function () { //出队操作
+			  if (!this.isEmpty()) {
+				--this.size;
+				var front = this.queueList.splice(0, 1);
+				return front[0];
+			  }
+			  return false;
+			},
+			getQueue: function () { //获取队列
+			  return this.queueList;
+			},
+			getFront: function () { //获取队头元素
+			  if (!this.isEmpty()) {
+				return this.queueList[0];
+			  }
+			  return false;
+			},
+			getRear: function () { //获取队尾元素
+			  if (!this.isEmpty()) {
+				var len = this.queueList.length;
+				return this.queueList[len - 1];
+			  }
+			  return false;
+			},
+			getSize: function () { //获取队列的长度
+			  return this.size;
+			},
+			isEmpty: function () { //检测队列是否为空
+			  return 0 === this.size;
+			}
+		};
+
+		var queue = new queue();
+		queue.enQueue(1);
+		queue.enQueue(2);
+		console.log("队列头元素为：", queue.getFront());
+		console.log("队列尾元素为：", queue.getRear());
+		console.log("队列大小为：", queue.getSize());
+		
+		
+		//链表结点   
+		function node(id, data) {
+		  this.id = id; //结点id
+		  this.data = data; //结点名称
+		  this.next = null; //下一结点
+		}
+
+		//单链表
+		function linkList(id, data) {
+		  this.header = new node(id, data, null); //链表头结点
+		}
+		linkList.prototype = {
+			addLink: function (node) { //添加结点数据 
+			  var current = this.header;
+			  while (current.next != null) {
+				if (current.next.id > node.id) {
+				  break;
+				}
+				current = current.next;
+			  }
+			  node.next = current.next;
+			  current.next = node;
+			},
+			getLinkList: function () { //获取链表
+			  var current = this.header;
+			  if (current.next == null) {
+				console.log("链表为空");
+				return;
+			  }
+			  var txt = "";
+			  while (current.next != null) {
+				txt += current.next.data + " ";
+				if (current.next.next == null) {
+				  break;
+				}
+				current = current.next;
+			  }
+			  console.log(txt);
+			},
+			getFront: function () { //返回队列首元素
+			  if (!this.header.next.data) {
+				console.log("获取队列首元素失败，队列已经为空");
+				return '';
+			  }
+			  return this.header.next.data;
+			},
+			getBack: function () { //返回队列尾元素
+			  var i = 0,
+				current = this.header;
+			  while (current.next != null) {
+				i++;
+				current = current.next;
+			  }
+			  if (!current) {
+				console.log("获取队列尾元素失败，队列已经为空");
+				return '';
+			  }
+			  return current.data;
+			},
+			getLinkLength: function () { //获取链表长度
+			  var i = 0,
+				current = this.header;
+			  while (current.next != null) {
+				i++;
+				current = current.next;
+			  }
+			  return i;
+			}
+		}
+
+		var lists = new linkList();
+		lists.addLink(new node(0, 1));
+		lists.addLink(new node(1, 2));
+		if (lists.getFront()) {
+		  console.log("队列头元素为：", lists.getFront());
+		}
+		if (lists.getBack()) {
+		  console.log("队列尾元素为：", lists.getBack());
+		}
+		console.log("队列大小为：", lists.getLinkLength());
+	</script>
+</body>
+</html>

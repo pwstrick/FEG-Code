@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>4.1引申</title>
+</head>
+<body>
+	<script>
+		//链表结点  
+		function node(id, name) {
+		  this.id = id; //结点id
+		  this.name = name; //结点名称
+		  this.next = null; //下一结点
+		}
+		//单链表
+		function linkList(id, name) {
+		  this.header = new node(id, name); //链表头结点
+		}
+		linkList.prototype = {
+		  getLinkLength: function () { //获取链表长度 
+			  var i = 0,
+				current = this.header;
+			  while (current.next != null) {
+				i++;
+				current = current.next;
+			  }
+			  return i;
+			},
+			addLink: function (node) { //添加结点数据 
+			  var current = this.header;
+			  while (current.next != null) {
+				if (current.next.id > node.id) {
+				  break;
+				}
+				current = current.next;
+			  }
+			  node.next = current.next;
+			  current.next = node;
+			},
+			clear: function () { //清空链表
+			  this.header = null;
+			},
+			getLinkList: function () { //获取链表
+			  var current = this.header;
+			  if (current.next == null) {
+				console.log("链表为空");
+				return;
+			  }
+			  var txt = "";
+			  while (current.next != null) {
+				txt += current.next.name + " ";
+				if (current.next.next == null) {
+				  break;
+				}
+				current = current.next;
+			  }
+			  console.log(txt);
+			},
+			reverseStart: function () { //从尾到头输出单链表信息
+			  var firstNode = this.header.next;
+			  this.txt = "";
+			  this.reversePrint(firstNode);
+			  console.log(this.txt);
+			},
+			reversePrint: function (firstNode) { //递归打印
+			  if (firstNode == null)
+				return;
+			  this.reversePrint(firstNode.next);
+			  this.txt += firstNode.name + " ";
+			}
+		};
+
+		var lists = new linkList();
+		for (var i = 0; i < 8; i++) {
+		  lists.addLink(new node(i, i));
+		}
+		console.log("顺序输出: ");
+		lists.getLinkList();
+		console.log("逆序输出：");
+		lists.reverseStart();
+		//释放链表所占的空间  
+		lists.clear();
+	</script>
+</body>
+</html>

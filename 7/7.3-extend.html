@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>7.3引申</title>
+</head>
+<body>
+	<script>
+		function swap(arr, low, high) {
+		  var tmp;
+		  //交换数组low到high之间的内容
+		  for (var i = 0; low < high; low++, high--) {
+			tmp = arr[low];
+			arr[low] = arr[high];
+			arr[high] = tmp;
+		  }
+		}
+		function rotateArr(arr, len, div) {
+		  if (!arr || len < 1 || div < 0 || div >= len) {
+			console.log("参数不合法");
+			return;
+		  }
+		  //不需要旋转
+		  if (div == 0 || div == len - 1)
+			return;
+		  swap(arr, 0, div); //交换第一个子数组的内容
+		  swap(arr, div + 1, len - 1); //交换第二个子数组的内容
+		  swap(arr, 0, len - 1); //交换整个数组的元素
+		}
+
+		var arr = [1, 2, 3, 4, 5],
+		  length = arr.length,
+		  txt = "";
+		rotateArr(arr, length, 2);
+		for (var i = 0; i < length; i++)
+		  txt += arr[i] + " ";
+		console.log(txt);
+	</script>
+</body>
+</html>
